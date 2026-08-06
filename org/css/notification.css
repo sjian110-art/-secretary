@@ -1,0 +1,243 @@
+/* ============================================
+   notification.css — 알림 화면 전용 스타일
+   common.css 다음에 불러옵니다.
+   ============================================ */
+
+/* ---- 전체 컨테이너 ---- */
+.noti-container {
+  background-color: var(--color-cream);
+  padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom));
+}
+
+/* ============================================
+   헤더
+   ============================================ */
+.noti-header {
+  padding: 0 var(--space-3);
+  background-color: var(--color-cream);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* ============================================
+   메인 영역
+   ============================================ */
+.noti-main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0 var(--space-3) var(--space-3);
+  flex: 1;
+}
+
+/* ---- 페이지 타이틀 ---- */
+.noti-intro {
+  padding: var(--space-1) 0 var(--space-3);
+}
+
+.noti-page-title {
+  font-family: var(--font-title);
+  font-size: var(--text-h2);
+  font-weight: var(--fw-regular);
+  color: var(--color-text);
+  letter-spacing: -0.4px;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.noti-page-desc {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--fw-regular);
+  color: var(--color-text-sub);
+  letter-spacing: -0.2px;
+  line-height: 1.5;
+}
+
+/* ============================================
+   알림 카드 목록
+   ============================================ */
+.noti-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+/* ============================================
+   알림 카드 공통
+   ============================================ */
+.noti-card {
+  width: 100%;
+  border-radius: var(--radius-card-lg);
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  opacity: 1;
+  max-height: 600px;
+  transition:
+    opacity var(--transition-slow),
+    max-height 0.4s ease,
+    padding var(--transition-slow),
+    margin var(--transition-slow),
+    box-shadow var(--transition),
+    transform var(--transition);
+}
+
+.noti-card:hover {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.11);
+  transform: translateY(-2px);
+}
+
+/* fade-out 클래스 (JS에서 추가) */
+.noti-card--hidden {
+  opacity: 0;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  pointer-events: none;
+}
+
+/* ---- 카드별 배경색 ---- */
+.noti-card--budget { background-color: #FEFAE3; }
+.noti-card--record { background-color: var(--color-surface); }
+.noti-card--report { background-color: #F8F3E8; }
+
+/* ============================================
+   카드 상단 (아이콘 + 제목 + 시간)
+   ============================================ */
+.noti-card-top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+/* ---- 아이콘 원형 배경 ---- */
+.noti-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-circle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.noti-icon-wrap svg { display: block; }
+
+.noti-icon-wrap--budget { background-color: #FFE8DF; }
+.noti-icon-wrap--record { background-color: #FFF5D6; }
+.noti-icon-wrap--report { background-color: #DDE8F8; }
+
+/* ---- 헤더 (제목 + 시간) ---- */
+.noti-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  gap: var(--space-1);
+}
+
+.noti-card-title {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--fw-bold);
+  color: var(--color-primary-dark);
+  letter-spacing: -0.2px;
+  line-height: 1.3;
+}
+
+.noti-card-time {
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  font-weight: var(--fw-regular);
+  color: var(--color-text-sub);
+  letter-spacing: -0.1px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   카드 본문
+   ============================================ */
+.noti-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-left: 56px; /* 아이콘 44px + gap 12px */
+}
+
+.noti-card-summary {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  letter-spacing: -0.2px;
+  line-height: 1.45;
+}
+
+.noti-card-detail {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: var(--fw-regular);
+  color: var(--color-text-sub);
+  letter-spacing: -0.2px;
+  line-height: 1.7;
+}
+
+/* ============================================
+   버튼 영역
+   ============================================ */
+.noti-card-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding-left: 56px;
+  margin-top: var(--space-3);
+}
+
+/* 공통 액션 버튼 */
+.btn-action {
+  height: var(--btn-height-sm);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--fw-bold);
+  letter-spacing: -0.1px;
+  cursor: pointer;
+  transition:
+    background-color var(--transition),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+  border: none;
+  padding: 0 var(--space-3);
+  white-space: nowrap;
+}
+
+.btn-action:active { transform: translateY(3px); }
+
+/* Primary — 진그린 */
+.btn-action--primary {
+  background-color: var(--color-primary-dark);
+  color: var(--color-text-white);
+  box-shadow: 0 3px 0 var(--color-primary-deep);
+}
+
+.btn-action--primary:hover  { background-color: #6DA060; }
+.btn-action--primary:active { box-shadow: none; }
+
+/* Secondary — 크림 */
+.btn-action--secondary {
+  background-color: var(--color-cream-dark);
+  color: var(--color-primary-dark);
+  box-shadow: 0 3px 0 var(--color-gray-300);
+}
+
+.btn-action--secondary:hover  { background-color: #E8DDA8; }
+.btn-action--secondary:active { box-shadow: none; }

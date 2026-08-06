@@ -1,0 +1,691 @@
+/* ============================================
+   plan.css — 예산 플래너 화면 전용 스타일
+   common.css 다음에 불러옵니다.
+   ============================================ */
+
+/* ---- 화면 전용 변수 ---- */
+:root {
+  --plan-yellow: #FFF4A4;
+  --font-display: 'Black Han Sans', sans-serif;
+  --font-hand: 'Gamja Flower', cursive;
+  --font-serif: 'Hahmlet', serif;
+}
+
+/* ---- 화면 컨테이너 ---- */
+#plan-screen {
+  min-height: 100vh;
+  padding-bottom: 100px;
+  overflow-x: hidden;
+  font-family: var(--font-serif);
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.logo-image {
+  width: 90px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* ============================================
+   메인
+   ============================================ */
+.plan-main {
+  flex: 1;
+  padding: var(--space-3) var(--space-3) var(--space-6);
+}
+
+/* ============================================
+   예산 요약 (상단)
+   ============================================ */
+.budget-summary {
+  position: relative;
+  text-align: center;
+  margin-bottom: var(--space-4);
+}
+
+.budget-label {
+  font-family: var(--font-serif);
+  font-size: var(--text-body);
+  font-weight: var(--fw-medium);
+  color: var(--color-text-sub);
+  letter-spacing: -0.2px;
+}
+
+.budget-amount {
+  margin-top: var(--space-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  color: var(--color-primary-dark);
+  font-family: var(--font-display);
+  font-size: 48px;
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+
+.budget-amount .won-sign {
+  font-family: var(--font-serif);
+  font-size: 36px;
+  font-weight: var(--fw-medium);
+}
+
+/* 기간 선택 버튼 */
+.budget-period {
+  width: max-content;
+  height: 40px;
+  margin: var(--space-2) auto 0;
+  padding: 0 var(--space-2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--color-cream-dark);
+  color: #956000;
+  font-size: var(--text-sm);
+  font-weight: var(--fw-bold);
+  font-family: var(--font-body);
+  transition: background-color var(--transition), transform var(--transition-fast);
+}
+
+.budget-period:hover,
+.budget-period[aria-expanded="true"] {
+  background: #E9DDB2;
+}
+
+.budget-period:active {
+  transform: scale(0.97);
+}
+
+.budget-period svg {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+}
+
+.budget-period svg * {
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+/* 날짜 선택 패널 */
+.date-picker-panel[hidden] {
+  display: none;
+}
+
+.date-picker-panel {
+  position: absolute;
+  z-index: 30;
+  top: 100%;
+  left: 50%;
+  width: min(320px, 90vw);
+  margin-top: var(--space-2);
+  padding: var(--space-3);
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-card-sm);
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
+  text-align: left;
+  animation: slideUp var(--transition);
+}
+
+.date-picker-panel label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #6D520D;
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  font-weight: var(--fw-bold);
+}
+
+.date-picker-panel input {
+  width: 100%;
+  height: 40px;
+  padding: 0 var(--space-2);
+  border: 1.5px solid var(--color-gray-300);
+  border-radius: var(--radius-input);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.date-picker-panel input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(133, 174, 123, 0.2);
+  outline: none;
+}
+
+.date-apply-btn {
+  grid-column: 1 / -1;
+  height: 40px;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: var(--color-text-white);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--fw-bold);
+  transition: background-color var(--transition), transform var(--transition-fast);
+}
+
+.date-apply-btn:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.date-apply-btn:active {
+  transform: scale(0.97);
+}
+
+/* ============================================
+   예산 원형 게이지
+   ============================================ */
+.budget-circle-area {
+  position: relative;
+  width: min(76vw, 330px);
+  height: min(91vw, 395px);
+  margin: var(--space-4) auto 0;
+}
+
+.budget-circle {
+  --remaining-level: 35%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 6px solid var(--color-gray-300);
+  border-radius: var(--radius-circle);
+  background: #FFFDF5;
+  box-shadow: var(--shadow-inset);
+}
+
+.liquid-fill {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--remaining-level);
+  background: linear-gradient(180deg, #FFEAFB, #FFD8F1);
+  transition: height var(--transition-slow);
+  animation: liquidPulse 3.2s ease-in-out infinite;
+}
+
+.liquid-wave {
+  position: absolute;
+  left: -15%;
+  top: -11px;
+  width: 130%;
+  height: 24px;
+  border-radius: var(--radius-circle);
+  background: #FFEAFB;
+}
+
+.liquid-wave-1 {
+  animation: waveMove 2.8s ease-in-out infinite;
+}
+
+.liquid-wave-2 {
+  top: -7px;
+  opacity: 0.52;
+  background: #FFF5FC;
+  animation: waveMoveReverse 3.6s ease-in-out infinite;
+}
+
+/* 코인 */
+.coin {
+  position: absolute;
+  z-index: 2;
+  width: 27px;
+  height: 27px;
+  border-radius: var(--radius-circle);
+  display: grid;
+  place-items: center;
+  background: #FFABE0;
+  color: var(--color-text-white);
+  font-size: 20px;
+  font-weight: var(--fw-bold);
+  animation: coinFloat 2.5s ease-in-out infinite;
+}
+
+.coin-1 {
+  top: 15px;
+  left: 58%;
+}
+
+.coin-2 {
+  top: 42px;
+  left: 14%;
+  animation-delay: -0.8s;
+}
+
+.coin-3 {
+  top: 56px;
+  right: 14%;
+  animation-delay: -1.5s;
+}
+
+/* 버블 */
+.bubble {
+  position: absolute;
+  z-index: 3;
+  bottom: 8px;
+  border-radius: var(--radius-circle);
+  background: rgba(255, 255, 255, 0.7);
+  opacity: 0;
+  animation: bubbleRise 2.8s ease-in infinite;
+}
+
+.bubble-1 {
+  width: 16px;
+  height: 16px;
+  left: 20%;
+}
+
+.bubble-2 {
+  width: 12px;
+  height: 12px;
+  left: 46%;
+  animation-delay: 0.5s;
+}
+
+.bubble-3 {
+  width: 9px;
+  height: 9px;
+  left: 33%;
+  animation-delay: 1.1s;
+}
+
+.bubble-4 {
+  width: 17px;
+  height: 17px;
+  right: 25%;
+  animation-delay: 1.6s;
+}
+
+.bubble-5 {
+  width: 8px;
+  height: 8px;
+  right: 39%;
+  animation-delay: 2.1s;
+}
+
+.bubble-6 {
+  width: 11px;
+  height: 11px;
+  left: 58%;
+  animation-delay: 2.5s;
+}
+
+/* 애니메이션 */
+@keyframes waveMove {
+
+  0%,
+  100% {
+    transform: translateX(-2%) rotate(-1deg) scaleY(0.8);
+  }
+
+  50% {
+    transform: translateX(3%) rotate(1.5deg) scaleY(1.25);
+  }
+}
+
+@keyframes waveMoveReverse {
+
+  0%,
+  100% {
+    transform: translateX(3%) rotate(1deg);
+  }
+
+  50% {
+    transform: translateX(-3%) rotate(-1deg);
+  }
+}
+
+@keyframes liquidPulse {
+  50% {
+    filter: saturate(1.08);
+    transform: scaleY(1.015);
+  }
+}
+
+@keyframes bubbleRise {
+  0% {
+    transform: translateY(0) scale(0.45);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 0.85;
+  }
+
+  75% {
+    opacity: 0.65;
+  }
+
+  100% {
+    transform: translateY(-120px) scale(1.05);
+    opacity: 0;
+  }
+}
+
+@keyframes coinFloat {
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+/* ============================================
+   잔여 예산 카드
+   ============================================ */
+.remaining-card {
+  min-height: 120px;
+  margin-top: var(--space-4);
+  padding: var(--space-3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: var(--radius-card-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
+}
+
+.remaining-label {
+  font-family: var(--font-serif);
+  font-size: var(--text-body);
+  font-weight: var(--fw-bold);
+  color: var(--color-text);
+  letter-spacing: -0.2px;
+}
+
+.remaining-amount {
+  margin-top: var(--space-1);
+  display: flex;
+  align-items: center;
+  color: var(--color-primary-dark);
+  font-family: var(--font-display);
+  font-size: 28px;
+}
+
+.remaining-amount>span {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: var(--fw-medium);
+}
+
+.remaining-right {
+  width: 120px;
+  color: var(--color-text-sub);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  text-align: right;
+}
+
+.remaining-right p {
+  font-weight: var(--fw-bold);
+  margin-bottom: var(--space-1);
+}
+
+.usage-track {
+  height: 8px;
+  margin-top: var(--space-1);
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: var(--color-gray-300);
+}
+
+.usage-fill {
+  width: 65%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-primary);
+  transition: width var(--transition-slow);
+}
+
+/* ============================================
+   응원 카드 (몽이 응원 메시지)
+   ============================================ */
+.encourage-card {
+  min-height: 150px;
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-3);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  border-radius: var(--radius-card-lg);
+  background: var(--color-yellow-light);
+  box-shadow: var(--shadow);
+  border: 1.5px solid var(--color-gray-300);
+}
+
+.encourage-icon {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border-radius: var(--radius-circle);
+  display: grid;
+  place-items: center;
+  background: var(--color-surface);
+  color: var(--color-primary-dark);
+  box-shadow: var(--shadow-sm);
+}
+
+.encourage-icon svg {
+  width: var(--icon-md);
+  height: var(--icon-md);
+}
+
+.encourage-icon path {
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linejoin: round;
+}
+
+.encourage-text {
+  color: var(--color-text);
+  font-family: var(--font-hand);
+  font-size: 19px;
+  line-height: 1.5;
+  letter-spacing: -0.3px;
+}
+
+.encourage-sign {
+  margin-top: var(--space-1);
+  color: var(--color-text-sub);
+  font-family: var(--font-hand);
+  font-size: 16px;
+  text-align: right;
+}
+
+/* ============================================
+   액션 버튼 그리드
+   ============================================ */
+.action-buttons {
+  margin: var(--space-4) 0 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+.btn-add-expense,
+.btn-expense-list {
+  height: 90px;
+  border-radius: var(--radius-card-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--fw-bold);
+  transition:
+    background-color var(--transition),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.btn-add-expense {
+  background: var(--color-primary);
+  box-shadow: 0 4px 0 var(--color-primary-deep);
+  color: var(--color-text-white);
+}
+
+.btn-add-expense:hover {
+  background-color: #95BC8B;
+}
+
+.btn-add-expense:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--color-primary-deep);
+}
+
+.btn-expense-list {
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-gray-300);
+  box-shadow: 0 4px 0 var(--color-gray-300);
+  color: var(--color-text);
+}
+
+.btn-expense-list:hover {
+  background: var(--color-gray-100);
+}
+
+.btn-expense-list:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--color-gray-300);
+}
+
+.action-icon {
+  height: 32px;
+  display: grid;
+  place-items: center;
+}
+
+.plus-icon {
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--color-text-white);
+  border-radius: var(--radius-circle);
+}
+
+.plus-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.plus-icon line {
+  stroke: currentColor;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+}
+
+.chart-icon {
+  color: #956000;
+  font-family: var(--font-hand);
+  font-size: 36px;
+  transform: rotate(-12deg);
+  line-height: 1;
+}
+
+/* ============================================
+   예산 편집 버튼
+   ============================================ */
+.btn-edit-budget {
+  width: 100%;
+  height: var(--btn-height);
+  margin: var(--space-3) 0 0 0;
+  padding: 0 var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  border-radius: var(--radius-btn);
+  background: #FFF0FA;
+  box-shadow: 0 4px 0 #A64B5C;
+  color: #5B0D26;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--fw-bold);
+  transition:
+    background-color var(--transition),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.btn-edit-budget:hover {
+  background-color: #FFE4F7;
+}
+
+.btn-edit-budget:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 #A64B5C;
+}
+
+.gear-icon {
+  font-size: var(--icon-md);
+  display: flex;
+  align-items: center;
+}
+
+.edit-arrow {
+  margin-left: auto;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+}
+
+/* ============================================
+   반응형
+   ============================================ */
+@media (max-width: 370px) {
+  .plan-main {
+    padding-inline: var(--space-2);
+  }
+
+  .budget-amount {
+    font-size: 40px;
+  }
+
+  .remaining-card {
+    padding-inline: var(--space-3);
+  }
+
+  .remaining-amount {
+    font-size: 23px;
+  }
+
+  .encourage-card {
+    padding-inline: var(--space-3);
+  }
+
+  .encourage-text {
+    font-size: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .liquid-fill,
+  .liquid-wave,
+  .coin,
+  .bubble {
+    animation: none;
+  }
+
+  .bubble {
+    opacity: 0.55;
+  }
+}

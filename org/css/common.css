@@ -1,0 +1,634 @@
+/* ============================================
+   common.css
+   말랑말랑 자취비서 — 디자인 시스템 허브
+   모든 화면이 이 파일을 가장 먼저 불러옵니다.
+   ============================================ */
+
+/* ============================================
+   ① 디자인 토큰 (CSS 변수)
+   ============================================ */
+:root {
+  /* ── 색상 ── */
+  /* 메인 배경 */
+  --color-cream:           #FFFAE3;
+  --color-cream-dark:      #FFF4C8;
+
+  /* 그린 (포인트 컬러) */
+  --color-primary:         #85AE7B;   /* 포인트 그린 */
+  --color-primary-dark:    #5C8A4C;   /* 진그린 — 텍스트, 버튼 강조 */
+  --color-primary-deep:    #3E6433;   /* 버튼 하단 그림자용 */
+  --color-primary-bg:      #D2DDC4;   /* 연그린 배경 */
+
+  /* 노랑 (강조/배지) */
+  --color-yellow:          #F5D962;
+  --color-yellow-light:    #FFFBDC;
+  --color-yellow-pale:     #FFFAE3;
+
+  /* 표면/카드 */
+  --color-surface:         #FFFFFF;   /* 카드 배경 */
+  --color-surface-warm:    #FEFAE8;   /* 크림 카드 배경 */
+
+  /* 그레이 */
+  --color-gray-100:        #F5F5F0;
+  --color-gray-200:        #EEEAE4;
+  --color-gray-300:        #E0D9C4;
+  --color-gray-400:        #C4C0B4;
+  --color-gray-500:        #7A7A7A;
+
+  /* 텍스트 */
+  --color-text:            #3A3A3A;   /* 기본 */
+  --color-text-sub:        #7A7A7A;   /* 보조 */
+  --color-text-white:      #FFFFFF;
+
+  /* 위험/에러 */
+  --color-danger:          #E05555;
+  --color-danger-bg:       #FFF0F0;
+
+  /* 성공 */
+  --color-success:         #27823A;
+  --color-success-bg:      #EAF5EA;
+
+  /* 별칭 (하위 호환) */
+  --color-main:            var(--color-cream);
+  --color-sub-green:       var(--color-primary);
+  --color-sub-green-dark:  var(--color-primary-dark);
+  --color-sub-green-light: var(--color-primary-bg);
+  --color-sub-pink:        #FFEFEF;
+  --color-text-main:       var(--color-text);
+  --color-white:           var(--color-surface);
+
+  /* ── 폰트 ── */
+  --font-title:   'Jua', sans-serif;          /* 브랜드/타이틀 (Jua) */
+  --font-body:    'Noto Sans KR', sans-serif; /* 기본 본문 */
+  --font-display: 'Black Han Sans', sans-serif; /* 숫자 강조 */
+  --font-hand:    'Gamja Flower', cursive;    /* 손글씨 포인트 */
+  --font-serif:   'Hahmlet', serif;           /* 세리프 포인트 */
+
+  /* ── 타이포그래피 ── */
+  --text-h1:       28px;
+  --text-h2:       24px;
+  --text-h3:       20px;
+  --text-body:     16px;
+  --text-sm:       14px;
+  --text-caption:  12px;
+
+  --fw-bold:       700;
+  --fw-medium:     500;
+  --fw-regular:    400;
+
+  /* ── Radius ── */
+  --radius-card-lg:  24px;    /* 대형 카드 */
+  --radius-card-sm:  20px;    /* 소형 카드 */
+  --radius-btn:      18px;    /* 버튼 */
+  --radius-input:    18px;    /* 인풋 */
+  --radius-modal:    28px;    /* 모달 */
+  --radius-nav:      24px;    /* 바텀 내비 */
+  --radius-tag:      12px;    /* 태그/필터 */
+  --radius-pill:     9999px;  /* 알약형 */
+  --radius-circle:   50%;     /* 원형 */
+
+  /* 하위 호환 */
+  --radius-sm:  8px;
+  --radius-md:  12px;
+  --radius-lg:  var(--radius-card-sm);
+  --radius-xl:  var(--radius-card-lg);
+
+  /* ── Shadow (전체 프로젝트 1종 통일) ── */
+  --shadow:      0 4px 20px rgba(0, 0, 0, 0.08);
+  --shadow-sm:   0 2px 8px  rgba(0, 0, 0, 0.05);
+  --shadow-md:   var(--shadow);
+  --shadow-inset: inset 0 4px 10px rgba(0, 0, 0, 0.05);
+
+  /* ── Spacing (8px Grid) ── */
+  --space-1:  8px;
+  --space-2:  16px;
+  --space-3:  24px;
+  --space-4:  32px;
+  --space-5:  40px;
+  --space-6:  48px;
+
+  /* ── 컴포넌트 크기 ── */
+  --btn-height:     56px;   /* 기본 버튼 높이 */
+  --btn-height-sm:  44px;   /* 소형 버튼 높이 */
+  --input-height:   52px;   /* 인풋 높이 */
+  --header-height:  60px;   /* 헤더 높이 */
+  --nav-height:     64px;   /* 바텀 내비 높이 */
+
+  /* ── 아이콘 ── */
+  --icon-sm:  20px;
+  --icon-md:  24px;
+  --icon-lg:  28px;
+
+  /* ── 애니메이션 ── */
+  --transition:      0.25s ease;
+  --transition-fast: 0.15s ease;
+  --transition-slow: 0.35s ease;
+}
+
+
+/* ============================================
+   ② Reset & Base
+   ============================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--fw-regular);
+  color: var(--color-text);
+  background-color: #F0EDE4;  /* 모바일 프레임 외부 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+}
+
+button {
+  background: none;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+input, textarea, select {
+  font: inherit;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+ul, ol, li {
+  list-style: none;
+}
+
+
+/* ============================================
+   ③ 레이아웃 — App Container
+   ============================================ */
+.app-container {
+  position: relative;
+  max-width: 480px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: var(--color-cream);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+
+/* ============================================
+   ④ 헤더 — 전체 공통
+   ============================================ */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-height);
+  padding: 0 var(--space-3);
+  background-color: var(--color-cream);
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.logo-icon {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.logo-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.logo-text {
+  font-family: var(--font-title);
+  font-size: var(--text-h3);
+  font-weight: var(--fw-regular);
+  color: var(--color-primary-dark);
+  letter-spacing: -0.3px;
+}
+
+/* 헤더 로고 이미지 (img 태그) */
+.logo-image,
+.header-logo-text-img {
+  height: 22px;
+  width: auto;
+  object-fit: contain;
+}
+
+.header-logo-icon-img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  border-radius: var(--radius-circle);
+}
+
+/* 헤더 아이콘 버튼 */
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-md);
+  height: var(--icon-md);
+  flex-shrink: 0;
+  color: var(--color-primary);
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.icon-btn:hover {
+  color: var(--color-primary-dark);
+}
+
+.icon-btn:active {
+  transform: scale(0.9);
+}
+
+.icon-btn svg {
+  width: 100%;
+  height: 100%;
+}
+
+
+/* ============================================
+   ⑤ 바텀 내비게이션 — 전체 공통
+   ============================================ */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: var(--color-cream);
+  padding: var(--space-1) 4px calc(var(--space-2) + env(safe-area-inset-bottom));
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+  border-radius: var(--radius-nav) var(--radius-nav) 0 0;
+  z-index: 1000;
+}
+
+/* 내비 아이템 */
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 4px var(--space-1);
+  color: var(--color-gray-500);
+  transition: color var(--transition);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.nav-item:hover {
+  color: var(--color-primary-dark);
+}
+
+/* 아이콘 래퍼 */
+.nav-icon-wrap {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-circle);
+  transition: background-color var(--transition);
+}
+
+.nav-icon-wrap svg {
+  width: var(--icon-md);
+  height: var(--icon-md);
+}
+
+/* 내비 SVG 선 스타일 — 전체 공통 (개별 CSS에서 중복 선언 제거) */
+.bottom-nav svg * {
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.nav-label {
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  font-weight: var(--fw-medium);
+  line-height: 1;
+}
+
+/* 활성 상태 */
+.nav-item.active {
+  color: var(--color-primary-dark);
+}
+
+.nav-item.active .nav-label {
+  font-weight: var(--fw-bold);
+}
+
+.nav-item.active .nav-icon-wrap {
+  background-color: var(--color-yellow);
+}
+
+
+/* ============================================
+   ⑥ 공통 버튼 컴포넌트
+   ============================================ */
+
+/* 기반 클래스 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  height: var(--btn-height);
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-btn);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.3px;
+  transition:
+    background-color var(--transition),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast),
+    opacity var(--transition);
+  white-space: nowrap;
+  position: relative;
+  outline: none;
+}
+
+.btn:active {
+  transform: translateY(3px);
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* 전체 너비 */
+.btn--full {
+  width: 100%;
+}
+
+/* 소형 버튼 */
+.btn--sm {
+  height: var(--btn-height-sm);
+  font-size: var(--text-sm);
+  padding: 0 var(--space-2);
+}
+
+/* Primary — 연두 그린 */
+.btn-primary,
+.btn--primary {
+  background-color: var(--color-primary);
+  color: var(--color-text-white);
+  box-shadow: 0 4px 0 var(--color-primary-deep);
+}
+
+.btn-primary:hover:not(:disabled),
+.btn--primary:hover:not(:disabled) {
+  background-color: #95BC8B;
+}
+
+.btn-primary:active:not(:disabled),
+.btn--primary:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--color-primary-deep);
+  background-color: #78A06E;
+}
+
+/* Secondary — 크림/연노랑 */
+.btn-secondary,
+.btn--secondary {
+  background-color: var(--color-cream-dark);
+  color: var(--color-primary-dark);
+  box-shadow: 0 4px 0 var(--color-gray-300);
+}
+
+.btn-secondary:hover:not(:disabled),
+.btn--secondary:hover:not(:disabled) {
+  background-color: #F5ECA8;
+}
+
+.btn-secondary:active:not(:disabled),
+.btn--secondary:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--color-gray-300);
+}
+
+/* Danger — 연분홍 */
+.btn-danger,
+.btn--danger {
+  background-color: var(--color-danger-bg);
+  color: var(--color-danger);
+  box-shadow: 0 4px 0 #E8C0C0;
+}
+
+.btn-danger:hover:not(:disabled),
+.btn--danger:hover:not(:disabled) {
+  background-color: #FFE4E4;
+}
+
+.btn-danger:active:not(:disabled),
+.btn--danger:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: none;
+}
+
+
+/* ============================================
+   ⑦ 공통 카드 컴포넌트
+   ============================================ */
+.card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-card-lg);
+  box-shadow: var(--shadow);
+  padding: var(--space-3);
+}
+
+.card--sm {
+  border-radius: var(--radius-card-sm);
+  padding: var(--space-2);
+}
+
+.card--warm {
+  background-color: var(--color-surface-warm);
+}
+
+
+/* ============================================
+   ⑧ 공통 폼 컴포넌트
+   ============================================ */
+
+/* 폼 그룹 */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: var(--space-2);
+}
+
+/* 라벨 */
+.form-label {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--fw-medium);
+  color: var(--color-text);
+  letter-spacing: -0.2px;
+}
+
+/* 인풋 */
+.form-input {
+  width: 100%;
+  height: var(--input-height);
+  background-color: var(--color-danger-bg);   /* 연핑크 */
+  border-radius: var(--radius-pill);
+  border: 2px solid transparent;
+  padding: 0 var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--fw-regular);
+  color: var(--color-text);
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition),
+    background-color var(--transition);
+  display: block;
+}
+
+.form-input::placeholder {
+  color: #C8B5B5;
+}
+
+.form-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(133, 174, 123, 0.20);
+  outline: none;
+  background-color: #FAFFF8;
+}
+
+/* 에러 메시지 */
+.form-error {
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  color: var(--color-danger);
+  min-height: 16px;
+  padding-left: 6px;
+  letter-spacing: -0.1px;
+}
+
+
+/* ============================================
+   ⑨ 공통 애니메이션
+   ============================================ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: translateY(14px) scale(0.94); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.04); }
+}
+
+
+/* ============================================
+   ⑩ 유틸리티
+   ============================================ */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.text-center { text-align: center; }
+.text-right  { text-align: right; }
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 모달 오픈 시 스크롤 잠금 */
+body.modal-open {
+  overflow: hidden;
+}
+
+
+/* ============================================
+   ⑪ 반응형 기준
+   ============================================ */
+@media (max-width: 390px) {
+  :root {
+    --btn-height:    52px;
+    --input-height:  48px;
+    --header-height: 56px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

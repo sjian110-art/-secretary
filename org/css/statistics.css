@@ -1,0 +1,410 @@
+/* ============================================
+   statistics.css — 통계 화면 전용 스타일
+   common.css 다음에 불러옵니다.
+   ============================================ */
+
+/* ---- 화면 전용 변수 ---- */
+:root {
+  --stats-report:  #DEDFC4;
+  --font-hand:     'Gamja Flower', cursive;
+  --font-serif:    'Hahmlet', serif;
+  --font-display:  'Black Han Sans', sans-serif;
+}
+
+/* ---- 화면 컨테이너 ---- */
+#statistics-screen {
+  min-height: 100vh;
+  padding-bottom: 100px;
+  overflow-x: hidden;
+  font-family: var(--font-serif);
+}
+
+.logo-icon  { width: 40px; height: 40px; object-fit: contain; }
+.logo-image { width: 90px; height: auto; object-fit: contain; }
+
+/* ============================================
+   메인
+   ============================================ */
+.statistics-main {
+  flex: 1;
+  padding: var(--space-3) var(--space-3) var(--space-6);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================
+   몽이 분석 말풍선 영역
+   ============================================ */
+.mongi-analysis {
+  height: 180px;
+  position: relative;
+  margin-bottom: var(--space-4);
+}
+
+.mongi-face-wrap {
+  position: absolute;
+  left: 0;
+  top: 60px;
+  width: 105px;
+  height: 74px;
+  z-index: 2;
+}
+
+.mongi-face-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.mongi-bubble {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 310px;
+  min-height: 140px;
+  padding: var(--space-3) var(--space-3);
+  border-radius: var(--radius-card-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
+  border: 1.5px solid var(--color-gray-300);
+  animation: slideUp var(--transition);
+}
+
+.mongi-bubble::before {
+  content: '';
+  position: absolute;
+  left: -17px;
+  top: 64px;
+  border-top: 19px solid transparent;
+  border-bottom: 19px solid transparent;
+  border-right: 23px solid var(--color-surface);
+}
+
+/* 말풍선 흰색 보더와 일치시키기 위한 보더 꼬리 연출 */
+.mongi-bubble::after {
+  content: '';
+  position: absolute;
+  left: -20px;
+  top: 64px;
+  border-top: 19px solid transparent;
+  border-bottom: 19px solid transparent;
+  border-right: 23px solid var(--color-gray-300);
+  z-index: -1;
+}
+
+.bubble-text-main,
+.bubble-text-sub {
+  font-family: var(--font-hand);
+}
+
+.bubble-text-main {
+  margin-bottom: var(--space-1);
+  color: var(--color-text);
+  font-size: 19px;
+  line-height: 1.5;
+}
+
+.bubble-highlight { color: #B95865; }
+
+.bubble-text-sub {
+  color: var(--color-text-sub);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* ============================================
+   도넛 차트 영역
+   ============================================ */
+.donut-section {
+  margin-top: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: var(--space-4);
+}
+
+.donut-wrap {
+  position: relative;
+  width: 260px;
+  height: 260px;
+}
+
+.donut-chart {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-circle);
+}
+
+.donut-center {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 110px;
+  height: 110px;
+  border-radius: var(--radius-circle);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-cream);
+}
+
+.donut-center-label {
+  font-family: var(--font-serif);
+  font-size: var(--text-caption);
+  color: var(--color-text-sub);
+  margin-bottom: 2px;
+}
+
+.donut-center-value {
+  color: var(--color-primary-dark);
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: var(--fw-bold);
+  line-height: 1;
+}
+
+/* ---- 범례 그리드 ---- */
+.legend-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2) var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.legend-item {
+  height: 48px;
+  padding: 0 var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  border: 1.5px solid var(--color-gray-300);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  flex: 0 0 12px;
+  border-radius: var(--radius-circle);
+}
+
+.legend-text {
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--fw-bold);
+  white-space: nowrap;
+}
+
+/* ============================================
+   상세 내역 섹션
+   ============================================ */
+.detail-section { 
+  margin-top: var(--space-5);
+  margin-bottom: var(--space-5);
+}
+
+.section-title {
+  margin: 0 0 var(--space-3) 0;
+  color: var(--color-text);
+  font-family: var(--font-title);
+  font-size: var(--text-h3);
+  font-weight: var(--fw-regular);
+}
+
+.detail-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* ---- 상세 카드 ---- */
+.detail-card {
+  min-height: 90px;
+  padding: var(--space-2) var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  border-radius: var(--radius-card-sm);
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
+  border: 1.5px solid transparent;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.detail-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.detail-card.is-primary {
+  background: var(--color-yellow-light);
+  border-color: var(--color-yellow);
+}
+
+.detail-icon {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  border-radius: var(--radius-circle);
+  display: grid;
+  place-items: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.detail-icon svg { width: var(--icon-md); height: var(--icon-md); }
+
+.detail-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.detail-title {
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--fw-bold);
+}
+
+.detail-desc {
+  margin-top: 2px;
+  overflow: hidden;
+  color: var(--color-text-sub);
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.detail-right { text-align: right; }
+
+.detail-amount {
+  color: var(--color-primary-dark);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--fw-bold);
+  white-space: nowrap;
+}
+
+.detail-change {
+  margin-top: 2px;
+  color: #A64B5C;
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  font-weight: var(--fw-medium);
+}
+
+.detail-change.is-neutral { color: var(--color-text-sub); }
+.detail-change.is-down    { color: var(--color-primary-dark); }
+
+/* ============================================
+   리포트 카드
+   ============================================ */
+.report-card {
+  position: relative;
+  min-height: 380px;
+  margin: var(--space-4) 0 0;
+  padding: var(--space-4) var(--space-3) var(--space-3);
+  border-radius: var(--radius-card-lg);
+  background: var(--color-primary-bg);
+  box-shadow: var(--shadow);
+  border: 1.5px solid var(--color-gray-300);
+  overflow: hidden;
+}
+
+.report-header {
+  height: 52px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-2);
+}
+
+.report-title {
+  color: var(--color-primary-dark);
+  font-family: var(--font-title);
+  font-size: var(--text-h3);
+  font-weight: var(--fw-regular);
+  white-space: nowrap;
+}
+
+.report-mascot {
+  width: 60px;
+  height: 67px;
+  margin-top: -10px;
+  object-fit: contain;
+}
+
+.report-body {
+  color: var(--color-text);
+  font-family: var(--font-hand);
+  font-size: 18px;
+  line-height: 1.6;
+  word-break: keep-all;
+  margin-bottom: 76px; /* 버튼을 가리지 않기 위한 여백 */
+}
+
+/* 공유 버튼 */
+.btn-share-report {
+  position: absolute;
+  left: var(--space-3);
+  right: var(--space-3);
+  bottom: var(--space-3);
+  height: var(--btn-height);
+  border-radius: var(--radius-btn);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  background: var(--color-primary);
+  color: var(--color-text-white);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--fw-bold);
+  box-shadow: 0 4px 0 var(--color-primary-deep);
+  transition:
+    background-color var(--transition),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.btn-share-report:hover {
+  background-color: #95BC8B;
+}
+
+.btn-share-report:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--color-primary-deep);
+}
+
+.btn-share-report svg {
+  width: var(--icon-md);
+  height: var(--icon-md);
+}
+
+.btn-share-report svg * {
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+/* ============================================
+   반응형
+   ============================================ */
+@media (max-width: 390px) {
+  .statistics-main  { padding-inline: var(--space-2); }
+  .mongi-face-wrap  { width: 88px; }
+  .mongi-bubble     { width: 256px; padding: var(--space-3); }
+  .bubble-text-main,
+  .bubble-text-sub  { font-size: var(--text-sm); }
+  .donut-wrap       { width: 220px; height: 220px; }
+  .legend-item      { padding-inline: var(--space-2); }
+  .legend-text      { font-size: var(--text-sm); }
+  .detail-card      { padding-inline: var(--space-2); }
+  .report-card      { padding-inline: var(--space-3); }
+  .report-title     { font-size: 19px; }
+  .report-body      { font-size: var(--text-caption); }
+}

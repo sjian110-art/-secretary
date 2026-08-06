@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>말랑말랑 자취비서 - 지출 기록</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gamja+Flower&family=Hahmlet:wght@400;500;600;700;800;900&family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/index_main.css">
+</head>
+<body>
+  <div class="app-container" id="expense-screen">
+    <header class="app-header">
+      <div class="header-logo"><img src="assets/images/logo_img.png" class="logo-icon" alt="몽이"><img src="assets/images/logo.png" class="logo-text logo-image" alt="말랑말랑"></div>
+      <button class="icon-btn" id="notification-btn" type="button" aria-label="알림"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2C10.3 2 9 3.3 9 5V5.4C6.6 6.2 5 8.4 5 11V15L3 18H21L19 15V11C19 8.4 17.4 6.2 15 5.4V5C15 3.3 13.7 2 12 2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.5 18.2C9.5 19.5 10.6 20.5 12 20.5C13.4 20.5 14.5 19.5 14.5 18.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+    </header>
+
+    <main class="expense-main">
+      <section class="expense-card" aria-labelledby="expense-title">
+        <div class="step-indicator" aria-hidden="true"><span class="step-dot active"></span><span class="step-dot"></span><span class="step-dot"></span><span class="step-dot"></span><span class="step-dot"></span></div>
+        <form class="expense-form" id="expense-form" novalidate>
+          <h1 class="card-title" id="expense-title">오늘의 지출 기록</h1>
+          <div class="form-step" id="step-amount"><label class="step-label" for="amount-input">얼마나 썼나요?</label><div class="amount-input-wrap"><input type="text" inputmode="numeric" id="amount-input" placeholder="0" maxlength="11" autocomplete="off"><span class="currency-unit">원</span></div></div>
+
+          <fieldset class="form-step" id="step-category"><legend class="step-label">어디에 사용했나요?</legend><div class="category-grid">
+            <div class="category-item"><button type="button" class="category-btn" data-category="food" aria-label="식비 선택" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v7a4 4 0 003 3.87V21a1 1 0 102 0v-7.13A4 4 0 0015 10V3a1 1 0 00-2 0v5h-1V3a1 1 0 00-2 0v5H9V3a1 1 0 00-2 0zm11 0a1 1 0 00-1 1v6a3 3 0 003 3h1v8a1 1 0 102 0V4a1 1 0 00-1-1h-4z"/></svg></button><span class="category-label">식비</span></div>
+            <div class="category-item"><button type="button" class="category-btn" data-category="life" aria-label="생활 선택" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 10v9a2 2 0 01-2 2H7a2 2 0 01-2-2v-9a1 1 0 01.3-.7l6-6a1 1 0 011.4 0l6 6a1 1 0 01.3.7z"/><rect x="10" y="14" width="4" height="7"/></svg></button><span class="category-label">생활</span></div>
+            <div class="category-item"><button type="button" class="category-btn" data-category="transport" aria-label="교통 선택" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="3" width="14" height="13" rx="3"/><line x1="5" y1="10" x2="19" y2="10"/><circle cx="8.5" cy="19" r="1.5"/><circle cx="15.5" cy="19" r="1.5"/><line x1="7" y1="16" x2="7" y2="18"/><line x1="17" y1="16" x2="17" y2="18"/></svg></button><span class="category-label">교통</span></div>
+            <div class="category-item"><button type="button" class="category-btn" data-category="culture" aria-label="문화 선택" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><ellipse cx="12" cy="7" rx="7" ry="3"/><path d="M5 7v4c0 1.66 3.13 3 7 3s7-1.34 7-3V7"/><path d="M5 11v4c0 1.66 3.13 3 7 3s7-1.34 7-3v-4"/></svg></button><span class="category-label">문화</span></div>
+            <div class="category-item"><button type="button" class="category-btn" data-category="etc" aria-label="기타 선택" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><rect class="etc-mark" x="6" y="14" width="4" height="2"/></svg></button><span class="category-label">기타</span></div>
+          </div></fieldset>
+
+          <div class="form-step" id="step-memo"><label class="step-label" for="memo-input">오늘의 한줄 평</label><div class="memo-input-wrap"><textarea id="memo-input" placeholder="오늘 하루를 기록해주세요..." maxlength="100"></textarea><div class="memo-decor-line"></div><span id="char-counter" class="char-counter">0 / 100</span></div></div>
+          <div class="submit-action"><button type="submit" id="btn-submit" class="btn-submit"><span>기록하기</span><span class="pencil-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18.41 5.8L17.2 4.59c-.78-.78-2.05-.78-2.83 0l-9 9c-.27.27-.45.61-.51.98l-.8 4.8c-.08.49.34.91.83.83l4.8-.8c.37-.06.71-.24.98-.51l9-9c.78-.78.78-2.05 0-2.83zM14 6.7l2.3 2.3M5.5 17.5l1-1M16.5 7.5L14.2 5.2"/></svg></span></button></div>
+        </form>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="주요 메뉴">
+      <a class="nav-item" href="index_home.html"><span class="nav-icon-wrap"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 11L12 4L20 11"/><path d="M6 9.5V20H18V9.5"/></svg></span><span class="nav-label">홈</span></a>
+      <a class="nav-item active" href="history.html" aria-current="page"><span class="nav-icon-wrap"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="13" y2="16"/></svg></span><span class="nav-label">지출</span></a>
+      <a class="nav-item" href="plan.html"><span class="nav-icon-wrap"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><line x1="4" y1="10" x2="20" y2="10"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/></svg></span><span class="nav-label">계획</span></a>
+      <a class="nav-item" href="mypage.html"><span class="nav-icon-wrap"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20C4 16 7.5 14 12 14C16.5 14 20 16 20 20"/></svg></span><span class="nav-label">마이페이지</span></a>
+    </nav>
+  </div>
+
+  <div class="expense-modal" id="expense-success-modal" hidden><button class="expense-modal-backdrop" type="button" data-modal-close aria-label="팝업 닫기"></button><div class="expense-modal-content" role="dialog" aria-modal="true" aria-labelledby="expense-modal-message"><img src="assets/mascot/mong_report.png" alt="안내하는 몽이"><button class="expense-modal-bubble" id="expense-modal-message" type="button" data-modal-close>“오늘의 지출을 기록하면, 제가 예쁜 정원으로<br>가꿔드릴게요! 당신의 하루는 어땠나요?”</button></div></div>
+  <script src="js/index_main.js"></script>
+</body>
+</html>

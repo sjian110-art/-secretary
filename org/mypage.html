@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>마이페이지 - 말랑말랑</title>
+  <meta name="description" content="말랑말랑 가계부 비서 마이페이지. 프로필, 설정, 알림을 관리하세요.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/mypage.css">
+</head>
+<body>
+
+<div class="app-container mypage-container" id="mypage-screen">
+
+  <!-- ===== 헤더 ===== -->
+  <header class="app-header mypage-header">
+    <div class="header-logo">
+      <span class="logo-icon">
+        <img src="assets/images/logo_img.png" class="header-logo-icon-img" alt="말랑말랑 아이콘">
+      </span>
+      <img src="assets/images/logo.png" class="header-logo-text-img" alt="말랑말랑">
+    </div>
+
+    <button class="icon-btn" id="notification-btn" type="button" aria-label="알림">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M12 2C10.3 2 9 3.3 9 5V5.4C6.6 6.2 5 8.4 5 11V15L3 18H21L19 15V11C19 8.4 17.4 6.2 15 5.4V5C15 3.3 13.7 2 12 2Z"
+          stroke="#5C8A4C" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M9.5 18.2C9.5 19.5 10.6 20.5 12 20.5C13.4 20.5 14.5 19.5 14.5 18.2"
+          stroke="#5C8A4C" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </header>
+
+  <!-- ===== 메인 콘텐츠 ===== -->
+  <main class="mypage-main">
+
+    <!-- 프로필 카드 -->
+    <section class="profile-card" aria-label="프로필 카드">
+
+      <!-- 프로필 이미지 + 편집 버튼 -->
+      <div class="profile-avatar-wrap">
+        <div class="profile-avatar" id="profile-avatar">
+          <img
+            src="assets/mascot/mong_mypage.png"
+            alt="몽이 프로필"
+            class="profile-mascot-img"
+          >
+        </div>
+        <button
+          type="button"
+          class="profile-edit-btn"
+          id="btn-profile-edit"
+          aria-label="프로필 편집"
+        >
+          <!-- 연필 아이콘 SVG -->
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M9.5 1.5L12.5 4.5L4.5 12.5H1.5V9.5L9.5 1.5Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 3L11 6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- 닉네임 + 소개 -->
+      <h2 class="profile-name" id="profile-name">포근한 여행자</h2>
+      <p class="profile-intro" id="profile-intro">오늘도 당신의 지갑을 따뜻하게 지켜드릴게요.</p>
+
+      <!-- 레벨 + 하트 -->
+      <div class="profile-badges">
+        <div class="profile-badge profile-badge--level" id="profile-level">
+          Lv.12 포근한 정원사
+        </div>
+        <div class="profile-badge profile-badge--heart" id="profile-heart">
+          <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M7 11.5C7 11.5 1.5 8 1.5 4.5C1.5 2.84 2.84 1.5 4.5 1.5C5.5 1.5 6.38 2.01 7 2.76C7.62 2.01 8.5 1.5 9.5 1.5C11.16 1.5 12.5 2.84 12.5 4.5C12.5 8 7 11.5 7 11.5Z" fill="#E07070" stroke="#E07070" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>850</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- 메뉴 카드 목록 -->
+    <nav class="menu-list" aria-label="마이페이지 메뉴">
+
+      <!-- 나의 비서 설정 -->
+      <a href="#" class="menu-item" id="menu-secretary" aria-label="나의 비서 설정으로 이동">
+        <div class="menu-icon-wrap menu-icon-wrap--secretary">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="11" cy="8" r="3.5" stroke="#C8860A" stroke-width="1.6"/>
+            <path d="M4 19c0-3.31 3.13-6 7-6s7 2.69 7 6" stroke="#C8860A" stroke-width="1.6" stroke-linecap="round"/>
+            <circle cx="11" cy="8" r="1.2" fill="#C8860A"/>
+          </svg>
+        </div>
+        <span class="menu-label">나의 비서 설정</span>
+        <span class="menu-arrow" aria-hidden="true">
+          <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1L7 7L1 13" stroke="#B0A898" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
+
+      <!-- 방 꾸미기 -->
+      <a href="#" class="menu-item" id="menu-room" aria-label="방 꾸미기로 이동">
+        <div class="menu-icon-wrap menu-icon-wrap--room">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="3" y="7" width="16" height="12" rx="1.5" stroke="#4A7ABA" stroke-width="1.6"/>
+            <path d="M7 7V5.5C7 4.12 8.12 3 9.5 3H12.5C13.88 3 15 4.12 15 5.5V7" stroke="#4A7ABA" stroke-width="1.6"/>
+            <line x1="3" y1="13" x2="19" y2="13" stroke="#4A7ABA" stroke-width="1.4" stroke-dasharray="2 2"/>
+          </svg>
+        </div>
+        <span class="menu-label">방 꾸미기</span>
+        <span class="menu-arrow" aria-hidden="true">
+          <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1L7 7L1 13" stroke="#B0A898" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
+
+      <!-- 알림 설정 -->
+      <a href="notification.html" class="menu-item" id="menu-notification" aria-label="알림 설정으로 이동">
+        <div class="menu-icon-wrap menu-icon-wrap--notification">
+          <svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M10 1C8.3 1 7 2.3 7 4V4.4C4.6 5.2 3 7.4 3 10V14L1 17H19L17 14V10C17 7.4 15.4 5.2 13 4.4V4C13 2.3 11.7 1 10 1Z" stroke="#C8503A" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M7.5 17.2C7.5 18.5 8.6 19.5 10 19.5C11.4 19.5 12.5 18.5 12.5 17.2" stroke="#C8503A" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="menu-label">알림 설정</span>
+        <span class="menu-arrow" aria-hidden="true">
+          <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1L7 7L1 13" stroke="#B0A898" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
+
+      <!-- 로그아웃 -->
+      <a href="login.html" class="menu-item menu-item--logout" id="menu-logout" aria-label="로그아웃">
+        <div class="menu-icon-wrap menu-icon-wrap--logout">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M8 11H18M18 11L15 8M18 11L15 14" stroke="#888" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14 5H5C4.45 5 4 5.45 4 6V16C4 16.55 4.45 17 5 17H14" stroke="#888" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="menu-label menu-label--logout">로그아웃</span>
+        <span class="menu-arrow" aria-hidden="true">
+          <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1L7 7L1 13" stroke="#C8C0B4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
+
+    </nav>
+
+    <!-- 버전 표시 -->
+    <p class="app-version" id="app-version">Version 2.4.1 (Mallang Edition)</p>
+
+  </main>
+
+  <!-- ===== 하단 탭바 ===== -->
+  <nav class="bottom-nav" aria-label="하단 메뉴">
+    <a class="nav-item" href="index_home.html" data-tab="home" id="tab-home">
+      <span class="nav-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 11L12 4L20 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M6 9.5V20H18V9.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="nav-label">홈</span>
+    </a>
+
+    <a class="nav-item" href="history.html" data-tab="expense" id="tab-expense">
+      <span class="nav-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/>
+          <line x1="8" y1="8" x2="16" y2="8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="8" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="8" y1="16" x2="13" y2="16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="nav-label">지출</span>
+    </a>
+
+    <a class="nav-item" href="plan.html" data-tab="plan" id="tab-plan">
+      <span class="nav-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="5" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.8"/>
+          <line x1="4" y1="10" x2="20" y2="10" stroke="currentColor" stroke-width="1.8"/>
+          <line x1="8" y1="3" x2="8" y2="7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="16" y1="3" x2="16" y2="7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="nav-label">계획</span>
+    </a>
+
+    <a class="nav-item active" href="mypage.html" data-tab="mypage" id="tab-mypage" aria-current="page">
+      <span class="nav-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M4 20c0-4.42 3.58-8 8-8s8 3.58 8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="nav-label">마이페이지</span>
+    </a>
+  </nav>
+
+</div>
+
+<script src="js/common.js"></script>
+<script src="js/mypage.js"></script>
+</body>
+</html>

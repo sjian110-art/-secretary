@@ -1,0 +1,396 @@
+/* ============================================
+   challenge.css — 비상금 챌린지 화면 전용 스타일
+   common.css 다음에 불러옵니다.
+   ============================================ */
+
+/* ---- 화면 전용 변수 ---- */
+:root {
+  --challenge-yellow: #FFF5A5;
+  --challenge-paper:  #FFFDF8;
+  --challenge-line:   #F4EAD8;
+  --font-display:     'Black Han Sans', sans-serif;
+  --font-hand:        'Gamja Flower', cursive;
+  --font-serif:       'Hahmlet', serif;
+}
+
+/* ---- 화면 컨테이너 ---- */
+#challenge-screen {
+  font-family: var(--font-serif);
+  padding-bottom: 90px;
+}
+
+.logo-icon  { width: 40px; height: 40px; object-fit: contain; }
+.logo-image { width: 90px; height: auto; object-fit: contain; }
+
+/* ============================================
+   메인
+   ============================================ */
+.challenge-main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-3) var(--space-6);
+}
+
+/* ============================================
+   챌린지 카드 (상단)
+   ============================================ */
+.challenge-card {
+  min-height: 280px;
+  padding: var(--space-3) var(--space-3) var(--space-3);
+  border: 1px solid #F0DF75;
+  border-radius: var(--radius-card-lg);
+  background: var(--challenge-yellow);
+  box-shadow: var(--shadow);
+}
+
+.challenge-badge {
+  display: inline-block;
+  margin-bottom: var(--space-2);
+  padding: 5px var(--space-2);
+  border-radius: var(--radius-pill);
+  background: #BA5162;
+  color: var(--color-text-white);
+  font-size: var(--text-sm);
+  font-weight: var(--fw-medium);
+  line-height: 1;
+}
+
+.challenge-title {
+  color: #171300;
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: var(--fw-regular);
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+}
+
+.challenge-goal {
+  margin-top: 4px;
+  color: var(--color-text-sub);
+  font-size: var(--text-body);
+  font-weight: var(--fw-bold);
+}
+
+.challenge-amount {
+  margin-top: var(--space-4);
+  color: var(--color-primary-dark);
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+
+.challenge-amount .unit {
+  margin-left: 7px;
+  color: var(--color-text-sub);
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: var(--fw-medium);
+}
+
+/* 진행률 바 */
+.challenge-progress-track {
+  height: 16px;
+  margin-top: var(--space-3);
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: #E9E2BD;
+  box-shadow: var(--shadow-inset);
+}
+
+.challenge-progress-fill {
+  width: 45%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-primary);
+  transition: width var(--transition-slow);
+}
+
+.challenge-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-1);
+  color: var(--color-text-sub);
+  font-size: var(--text-body);
+  font-weight: var(--fw-bold);
+}
+
+/* ============================================
+   섹션 타이틀
+   ============================================ */
+.section-title {
+  margin: 0 0 var(--space-3) var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  font-weight: var(--fw-regular);
+  color: var(--color-text);
+}
+
+/* ============================================
+   대시보드 그리드
+   ============================================ */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3) var(--space-2);
+}
+
+/* ---- 대시 카드 ---- */
+.dash-card {
+  height: 108px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 39px minmax(0, 1fr);
+  grid-template-rows: 25px 37px 21px;
+  align-items: center;
+  padding: var(--space-2) var(--space-1) var(--space-1);
+  border-radius: var(--radius-card-sm);
+  background: var(--challenge-paper);
+  box-shadow: var(--shadow);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.dash-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10);
+}
+
+.dash-title {
+  grid-column: 2;
+  overflow: hidden;
+  font-size: var(--text-sm);
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+  color: var(--color-text-sub);
+}
+
+.dash-body {
+  grid-column: 1 / 3;
+  grid-row: 2;
+  display: grid;
+  grid-template-columns: 39px minmax(0, 1fr);
+  align-items: center;
+  min-width: 0;
+}
+
+.dash-icon {
+  width: 35px;
+  height: 35px;
+  display: grid;
+  place-items: center;
+}
+
+.dash-icon svg { width: 32px; height: 32px; }
+
+.dash-icon--fire path          { fill: #FF7076; }
+.dash-icon--wallet rect:first-child  { fill: #A7DF91; }
+.dash-icon--wallet rect:nth-child(2) { fill: #88BD78; }
+.dash-icon--wallet circle            { fill: var(--color-surface); }
+.dash-icon--target circle            { stroke: #82BFFF; stroke-width: 1.8; }
+.dash-icon--target .target-dot       { fill: #82BFFF; stroke: none; }
+.dash-icon--calendar rect,
+.dash-icon--calendar line {
+  stroke: #C99CFF;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+.dash-value {
+  min-width: 0;
+  overflow: hidden;
+  color: #344157;
+  font-size: var(--text-h2);
+  font-weight: var(--fw-bold);
+  letter-spacing: -1px;
+  white-space: nowrap;
+}
+
+.dash-unit { margin-left: 1px; font-size: var(--text-caption); }
+
+.dash-caption {
+  grid-column: 2;
+  grid-row: 3;
+  overflow: hidden;
+  color: var(--color-text-sub);
+  font-size: var(--text-caption);
+  white-space: nowrap;
+}
+
+.dash-card:nth-child(3) .dash-value { font-size: 18px; letter-spacing: -1.2px; }
+.dash-card:nth-child(3) .dash-unit,
+.dash-card:nth-child(4) .dash-unit  { font-size: 10px; }
+.dash-card:nth-child(4) .dash-value { font-size: 20px; }
+
+/* ============================================
+   미션 카드
+   ============================================ */
+.mission-card {
+  margin-top: var(--space-1);
+  padding: var(--space-3) var(--space-2) var(--space-2);
+  border-radius: var(--radius-card-lg);
+  background: var(--challenge-paper);
+  box-shadow: var(--shadow);
+}
+
+.mission-header {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6px 6px var(--space-2);
+}
+
+.mission-header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.mission-header-icon { width: var(--icon-lg); height: var(--icon-lg); }
+.mission-header-icon svg { width: 100%; height: 100%; }
+.mission-header-icon rect,
+.mission-header-icon line {
+  stroke: var(--color-primary-dark);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.mission-header-icon rect:nth-child(2) { fill: var(--color-primary-dark); }
+
+.mission-title {
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  font-weight: var(--fw-regular);
+  color: var(--color-text);
+}
+
+.mission-mascot {
+  width: 60px;
+  height: 40px;
+  object-fit: contain;
+}
+
+/* ---- 미션 리스트 ---- */
+.mission-list {
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-card-sm);
+  background: #FFFEFA;
+  box-shadow: var(--shadow-inset);
+}
+
+.mission-item {
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  border-bottom: 1px solid var(--challenge-line);
+  transition: opacity var(--transition);
+}
+
+.mission-item:last-child { border-bottom: 0; }
+
+.mission-check {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--color-gray-400);
+  border-radius: var(--radius-circle);
+  background: var(--color-surface);
+  transition:
+    border-color var(--transition),
+    background-color var(--transition);
+}
+
+.mission-check svg { width: 15px; height: 15px; opacity: 0; transition: opacity var(--transition); }
+.mission-check path {
+  fill: none;
+  stroke: var(--color-text-white);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mission-item.is-done .mission-check {
+  border-color: var(--color-success);
+  background: var(--color-success);
+}
+
+.mission-item.is-done .mission-check svg { opacity: 1; }
+
+.mission-label  { flex: 1; font-size: var(--text-sm); }
+.mission-reward { color: var(--color-primary-dark); font-size: var(--text-sm); white-space: nowrap; }
+
+.mission-bonus {
+  margin-top: var(--space-2);
+  padding: var(--space-1) 5px;
+  border-radius: var(--radius-tag);
+  background: var(--color-success-bg);
+  font-size: var(--text-caption);
+  text-align: center;
+}
+
+.mission-bonus strong {
+  color: var(--color-success);
+  font-size: var(--text-sm);
+}
+
+/* ============================================
+   오늘 저축 버튼
+   ============================================ */
+.btn-save-today {
+  height: var(--btn-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  border-radius: var(--radius-btn);
+  background: var(--color-primary);
+  box-shadow: 0 4px 0 var(--color-primary-deep);
+  color: var(--color-text-white);
+  font-family: var(--font-hand);
+  font-size: 20px;
+  transition:
+    background-color var(--transition),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast),
+    filter var(--transition);
+}
+
+.btn-save-today:hover {
+  background-color: #95BC8B;
+}
+
+.btn-save-today:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--color-primary-deep);
+}
+
+.btn-save-today:disabled {
+  cursor: default;
+  opacity: 0.80;
+  transform: none;
+  box-shadow: none;
+}
+
+/* 버튼 아이콘 */
+.btn-icon { width: var(--icon-lg); height: var(--icon-lg); }
+.btn-icon svg { width: 100%; height: 100%; }
+.btn-icon path  { stroke: currentColor; stroke-width: 1.5; stroke-linejoin: round; }
+.btn-icon circle { fill: currentColor; }
+
+/* ============================================
+   반응형
+   ============================================ */
+@media (max-width: 360px) {
+  .challenge-main   { padding-inline: var(--space-2); }
+  .dashboard-grid   { gap: var(--space-2) var(--space-1); }
+  .dash-card        { padding-inline: var(--space-1); }
+  .dash-value       { font-size: var(--text-h3); }
+  .dash-card:nth-child(3) .dash-value { font-size: 16px; }
+  .mission-label,
+  .mission-reward   { font-size: var(--text-caption); }
+}

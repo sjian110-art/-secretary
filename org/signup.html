@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>회원가입 - 말랑말랑</title>
+  <meta name="description" content="말랑말랑 가계부 비서에 가입하세요. 당신의 다정한 가계부 비서가 기다리고 있어요.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/signup.css">
+</head>
+<body>
+
+<div class="app-container signup-container" id="signup-screen">
+
+  <!-- 상단 진행률 바 -->
+  <header class="signup-header">
+    <div class="progress-steps" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3" aria-label="회원가입 진행 단계">
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill"></div>
+        <div class="progress-dot progress-dot--done" id="dot-1" aria-label="1단계 완료"></div>
+        <div class="progress-dot progress-dot--active" id="dot-2" aria-label="현재 2단계: 목표 설정"></div>
+        <div class="progress-dot" id="dot-3" aria-label="3단계: 완료"></div>
+      </div>
+      <div class="step-labels" aria-hidden="true">
+        <span class="step-label step-label--active">시작하기</span>
+        <span class="step-label">목표 설정</span>
+        <span class="step-label">완료</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 본문 -->
+  <main class="signup-main">
+
+    <!-- 제목 + 설명 -->
+    <section class="signup-intro" aria-labelledby="signup-title">
+      <h1 class="signup-title" id="signup-title">함께&nbsp; 시작해볼까요?</h1>
+      <p class="signup-desc">말랑말랑한 가계부 생활을 위해<br>몇 가지 정보가 필요해요.</p>
+    </section>
+
+    <!-- 입력 폼 -->
+    <section class="signup-form-wrap" aria-label="회원가입 입력 폼">
+      <form class="signup-form" id="signup-form" novalidate>
+
+        <!-- 이름(닉네임) -->
+        <div class="form-group" id="group-name">
+          <label class="form-label" for="input-name">이름 (또는 닉네임)</label>
+          <div class="input-wrap">
+            <input
+              type="text"
+              id="input-name"
+              name="name"
+              class="form-input"
+              placeholder="어떻게 불러드릴까요?"
+              autocomplete="nickname"
+              maxlength="20"
+            >
+          </div>
+          <p class="form-error" id="error-name" role="alert"></p>
+        </div>
+
+        <!-- 이메일 -->
+        <div class="form-group" id="group-email">
+          <label class="form-label" for="input-email">이메일 주소</label>
+          <div class="input-wrap">
+            <input
+              type="email"
+              id="input-email"
+              name="email"
+              class="form-input"
+              placeholder="example@mallang.com"
+              autocomplete="email"
+              maxlength="60"
+            >
+          </div>
+          <p class="form-error" id="error-email" role="alert"></p>
+        </div>
+
+        <!-- 비밀번호 -->
+        <div class="form-group" id="group-pw">
+          <label class="form-label" for="input-pw">비밀번호</label>
+          <div class="input-wrap">
+            <input
+              type="password"
+              id="input-pw"
+              name="password"
+              class="form-input"
+              placeholder="비밀번호를 입력해주세요"
+              autocomplete="new-password"
+              maxlength="30"
+            >
+          </div>
+          <p class="form-error" id="error-pw" role="alert"></p>
+        </div>
+
+        <!-- 보안 안내 카드 -->
+        <div class="security-card" aria-label="보안 안내">
+          <div class="security-icon" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 2L16.5 9H24L18 13.5L20.5 20.5L14 16L7.5 20.5L10 13.5L4 9H11.5L14 2Z" fill="#5C8A4C" opacity="0.15"/>
+              <path d="M14 4.5C14 4.5 11 10 6 10.5C6 10.5 7 20 14 23C21 20 22 10.5 22 10.5C17 10 14 4.5 14 4.5Z" stroke="#5C8A4C" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+              <path d="M10.5 13.5L13 16L17.5 11.5" stroke="#5C8A4C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="security-text">
+            <strong class="security-title">안전한 데이터 보호</strong>
+            <p class="security-desc">회원님의 소중한 금융 정보는<br>암호화되어 안전하게 보관됩니다.</p>
+          </div>
+        </div>
+
+        <!-- 다음으로 버튼 -->
+        <button type="submit" class="btn-next" id="btn-next" disabled aria-disabled="true">
+          <span class="btn-next-text">다음으로</span>
+          <span class="btn-next-arrow" aria-hidden="true">→</span>
+        </button>
+
+      </form>
+    </section>
+
+    <!-- 하단 로그인 링크 -->
+    <footer class="signup-footer">
+      <p class="signup-footer-text">
+        이미 계정이 있으신가요?&nbsp;
+        <a href="login.html" class="signup-login-link" id="link-go-login">로그인</a>
+      </p>
+    </footer>
+
+  </main>
+
+</div>
+
+<script src="js/common.js"></script>
+<script src="js/signup.js"></script>
+</body>
+</html>

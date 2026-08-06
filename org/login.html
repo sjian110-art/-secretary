@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>로그인 - 말랑말랑</title>
+  <meta name="description" content="말랑말랑 가계부 비서에 로그인하세요. 당신의 다정한 가계부 비서가 기다리고 있어요.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+
+<div class="app-container login-container" id="login-screen">
+
+  <!-- 상단 캐릭터 / 브랜드 영역 -->
+  <header class="login-header">
+    <div class="mascot-wrap">
+      <img
+        src="assets/mascot/mong_curious.png"
+        alt="말랑이 캐릭터"
+        class="mascot-img"
+        id="login-mascot"
+      >
+      <div class="mascot-badge">
+        <img
+          src="assets/images/logo_img.png"
+          alt="몽이 아이콘"
+          class="mascot-badge-img"
+        >
+        <span class="mascot-badge-label">몽이</span>
+      </div>
+    </div>
+
+    <div class="brand-wrap">
+      <img
+        src="assets/images/logo.png"
+        alt="말랑말랑 로고"
+        class="brand-logo"
+        id="login-logo"
+      >
+      <p class="brand-slogan">당신의 다정한 가계부 비서</p>
+    </div>
+  </header>
+
+  <!-- 로그인 폼 카드 -->
+  <main class="login-main">
+    <section class="login-card" aria-label="로그인 폼">
+      <form class="login-form" id="login-form" novalidate>
+
+        <!-- 아이디 -->
+        <div class="form-group" id="group-id">
+          <label class="form-label" for="input-id">아이디</label>
+          <div class="input-wrap" id="input-wrap-id">
+            <input
+              type="text"
+              id="input-id"
+              name="userId"
+              class="form-input"
+              placeholder="아이디를 입력해주세요"
+              autocomplete="username"
+              maxlength="30"
+            >
+          </div>
+          <p class="form-error" id="error-id" role="alert"></p>
+        </div>
+
+        <!-- 비밀번호 -->
+        <div class="form-group" id="group-pw">
+          <label class="form-label" for="input-pw">비밀번호</label>
+          <div class="input-wrap" id="input-wrap-pw">
+            <input
+              type="password"
+              id="input-pw"
+              name="password"
+              class="form-input"
+              placeholder="비밀번호를 입력해주세요"
+              autocomplete="current-password"
+              maxlength="30"
+            >
+          </div>
+          <p class="form-error" id="error-pw" role="alert"></p>
+        </div>
+
+        <!-- 로그인 버튼 -->
+        <button type="submit" class="btn-login" id="btn-login">
+          로그인
+        </button>
+
+      </form>
+
+      <!-- 부가 링크 -->
+      <nav class="login-links" aria-label="계정 관련 링크">
+        <a href="signup.html" class="login-link" id="link-signup">회원가입</a>
+        <span class="link-dot" aria-hidden="true">•</span>
+        <a href="#" class="login-link" id="link-find-pw">비밀번호 찾기</a>
+      </nav>
+    </section>
+
+    <!-- 간편 로그인 -->
+    <section class="social-login" aria-label="간편 로그인">
+      <div class="social-divider">
+        <span class="social-divider-label">간편 로그인</span>
+      </div>
+
+      <div class="social-btn-wrap">
+        <!-- 카카오 -->
+        <button type="button" class="social-btn social-btn--kakao" id="btn-kakao" aria-label="카카오로 로그인">
+          <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M11 0C4.925 0 0 3.761 0 8.4c0 3.003 1.998 5.637 5.01 7.14L3.77 19.42a.42.42 0 0 0 .626.45L9.64 16.7c.449.054.91.082 1.36.082 6.075 0 11-3.761 11-8.4C22 3.761 17.075 0 11 0z" fill="#3A1D1D"/>
+          </svg>
+        </button>
+
+        <!-- 애플 -->
+        <button type="button" class="social-btn social-btn--apple" id="btn-apple" aria-label="애플로 로그인">
+          <svg width="20" height="24" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M16.52 12.74c-.02-2.56 2.09-3.8 2.19-3.87-1.2-1.75-3.06-1.99-3.72-2.01-1.58-.16-3.09.93-3.89.93-.8 0-2.03-.91-3.34-.89-1.72.03-3.31 1-4.19 2.54-1.79 3.1-.46 7.69 1.29 10.21.86 1.23 1.88 2.62 3.22 2.57 1.3-.05 1.79-.84 3.36-.84 1.57 0 2.01.84 3.38.82 1.39-.02 2.27-1.26 3.12-2.5.99-1.43 1.39-2.82 1.41-2.89-.03-.02-2.7-1.03-2.73-4.07zM14.1 4.53C14.8 3.67 15.28 2.48 15.14 1.3c-1.03.04-2.27.69-3 1.53-.66.76-1.24 1.97-1.08 3.14 1.14.09 2.3-.58 3.04-1.44z" fill="#FFFFFF"/>
+          </svg>
+        </button>
+
+        <!-- 구글 -->
+        <button type="button" class="social-btn social-btn--google" id="btn-google" aria-label="구글로 로그인">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M21.14 11.25c0-.76-.07-1.5-.19-2.21H11v4.18h5.7a4.87 4.87 0 0 1-2.11 3.2v2.66h3.42c2-1.84 3.13-4.55 3.13-7.83z" fill="#4285F4"/>
+            <path d="M11 22c2.87 0 5.27-.95 7.02-2.58l-3.42-2.66c-.95.64-2.17 1.01-3.6 1.01-2.77 0-5.11-1.87-5.95-4.38H1.53v2.75A11 11 0 0 0 11 22z" fill="#34A853"/>
+            <path d="M5.05 13.39A6.6 6.6 0 0 1 4.7 11c0-.83.14-1.63.35-2.39V5.86H1.53A11 11 0 0 0 0 11c0 1.78.43 3.46 1.53 4.86l3.52-2.47z" fill="#FBBC05"/>
+            <path d="M11 4.36c1.56 0 2.96.54 4.06 1.59l3.05-3.05C16.27.95 13.87 0 11 0A11 11 0 0 0 1.53 5.86l3.52 2.75C5.89 6.23 8.23 4.36 11 4.36z" fill="#EA4335"/>
+          </svg>
+        </button>
+      </div>
+    </section>
+  </main>
+
+</div>
+
+<script src="js/common.js"></script>
+<script src="js/login.js"></script>
+</body>
+</html>

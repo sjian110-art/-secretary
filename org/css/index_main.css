@@ -1,0 +1,406 @@
+/* ============================================
+   index_main.css — 지출 기록 화면 전용 스타일
+   common.css 다음에 불러옵니다.
+   ============================================ */
+
+/* ---- 화면 전용 변수 ---- */
+:root {
+  --expense-deep-green: var(--color-primary-dark);
+  --expense-yellow:     #FFF59C;
+  --expense-pale:       #FFF9D9;
+  --font-display:       'Black Han Sans', sans-serif;
+  --font-hand:          'Gamja Flower', cursive;
+  --font-serif:         'Hahmlet', serif;
+}
+
+/* ---- 화면 컨테이너 ---- */
+#expense-screen {
+  min-height: 100vh;
+  padding-bottom: 100px;
+  overflow-x: hidden;
+  font-family: var(--font-serif);
+}
+
+/* ---- 로고 이미지 크기 ---- */
+.logo-icon   { width: 40px; height: 40px; object-fit: contain; }
+.logo-image  { width: 90px; height: auto; object-fit: contain; }
+
+/* ============================================
+   메인 영역
+   ============================================ */
+.expense-main {
+  flex: 1;
+  padding: var(--space-3) var(--space-3) var(--space-6);
+}
+
+/* ---- 카드 ---- */
+.expense-card {
+  position: relative;
+  width: 100%;
+  min-height: 780px;
+  padding: var(--space-4) var(--space-4) var(--space-4) 52px;
+  border-radius: var(--radius-card-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
+}
+
+/* ---- 단계 인디케이터 ---- */
+.step-indicator {
+  position: absolute;
+  top: 105px;
+  bottom: 72px;
+  left: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.step-dot {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-circle);
+  background: var(--color-gray-300);
+  transition: background-color var(--transition);
+}
+
+.step-dot.active {
+  background: var(--color-primary);
+}
+
+/* ---- 폼 ---- */
+.expense-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-title {
+  margin-bottom: var(--space-4);
+  color: #181800;
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: var(--fw-regular);
+  line-height: 1.2;
+}
+
+.form-step {
+  min-width: 0;
+  border: 0;
+}
+
+.step-label {
+  display: block;
+  color: var(--color-text-sub);
+  font-size: var(--text-body);
+  font-weight: var(--fw-medium);
+}
+
+/* ============================================
+   금액 입력
+   ============================================ */
+#step-amount {
+  margin-bottom: var(--space-5);
+}
+
+.amount-input-wrap {
+  height: 90px;
+  margin: var(--space-1) var(--space-2) 0 var(--space-1);
+  display: flex;
+  align-items: flex-end;
+  border-bottom: 4px solid var(--color-primary-bg);
+  transition: border-color var(--transition);
+}
+
+.amount-input-wrap:focus-within {
+  border-color: var(--color-primary);
+}
+
+.amount-input-wrap input {
+  width: 100%;
+  min-width: 0;
+  height: 64px;
+  padding: 0 6px 2px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--color-primary-dark);
+  text-align: right;
+  font-size: 46px;
+  font-weight: var(--fw-bold);
+  font-family: var(--font-serif);
+}
+
+.amount-input-wrap input::placeholder {
+  color: var(--color-gray-300);
+}
+
+.currency-unit {
+  padding: 0 0 6px 8px;
+  color: var(--color-primary-dark);
+  font-family: var(--font-hand);
+  font-size: 34px;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   카테고리 선택
+   ============================================ */
+#step-category {
+  margin-bottom: var(--space-5);
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--space-1);
+  margin-top: var(--space-3);
+  transform: translateX(-8px);
+}
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.category-btn {
+  width: 58px;
+  height: 58px;
+  border-radius: var(--radius-circle);
+  display: grid;
+  place-items: center;
+  background: var(--expense-pale);
+  color: #936000;
+  transition:
+    background-color var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
+}
+
+.category-btn svg {
+  width: 28px;
+  height: 28px;
+}
+
+.category-btn svg:not(:first-child),
+.category-btn svg * {
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.category-btn svg > path:first-child:last-child {
+  fill: currentColor;
+  stroke: none;
+}
+
+.category-btn .etc-mark {
+  fill: currentColor;
+  stroke: none;
+}
+
+.category-btn:hover,
+.category-btn.active {
+  background: var(--expense-yellow);
+  box-shadow: 0 0 0 3px rgba(133, 174, 123, 0.35);
+  transform: translateY(-3px);
+}
+
+.category-label {
+  color: var(--color-text);
+  font-size: var(--text-body);
+  white-space: nowrap;
+}
+
+/* ============================================
+   메모 입력
+   ============================================ */
+#step-memo {
+  margin-bottom: var(--space-4);
+}
+
+.memo-input-wrap {
+  position: relative;
+  height: 160px;
+  margin: var(--space-2) 0 0 -8px;
+  padding: var(--space-4) var(--space-4) var(--space-3);
+  border-radius: var(--radius-card-lg);
+  background: #FFFBDC;
+  box-shadow: var(--shadow-inset);
+}
+
+.memo-input-wrap textarea {
+  width: 100%;
+  height: 76px;
+  border: 0;
+  outline: 0;
+  resize: none;
+  background: transparent;
+  color: var(--color-text-sub);
+  font-size: var(--text-body);
+  line-height: 1.55;
+  font-family: var(--font-serif);
+}
+
+.memo-input-wrap textarea::placeholder {
+  color: #9A9A8E;
+}
+
+.memo-decor-line {
+  position: absolute;
+  left: 19px;
+  right: 19px;
+  bottom: var(--space-3);
+  height: 3px;
+  background: var(--color-gray-300);
+  border-radius: 2px;
+}
+
+.char-counter {
+  position: absolute;
+  right: var(--space-3);
+  bottom: 6px;
+  color: var(--color-gray-500);
+  font-size: var(--text-caption);
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.memo-input-wrap:focus-within .char-counter {
+  opacity: 1;
+}
+
+/* ============================================
+   제출 버튼
+   ============================================ */
+.submit-action {
+  padding: 0 var(--space-2);
+}
+
+.btn-submit {
+  width: 100%;
+  height: var(--btn-height);
+  border-radius: var(--radius-btn);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  background: var(--color-primary);
+  box-shadow: 0 4px 0 var(--color-primary-deep);
+  color: var(--color-text-white);
+  font-family: var(--font-hand);
+  font-size: 24px;
+  letter-spacing: 1px;
+  transition:
+    background-color var(--transition),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.btn-submit:hover {
+  background-color: #95BC8B;
+}
+
+.btn-submit:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--color-primary-deep);
+  background-color: #78A06E;
+}
+
+.pencil-icon {
+  width: var(--icon-md);
+  height: var(--icon-md);
+  flex-shrink: 0;
+}
+
+.pencil-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.pencil-icon path {
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+/* ============================================
+   성공 모달
+   ============================================ */
+.expense-modal[hidden] { display: none !important; }
+
+.expense-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+}
+
+.expense-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 251, 234, 0.30);
+  backdrop-filter: blur(8px);
+  cursor: default;
+}
+
+.expense-modal-content {
+  position: relative;
+  z-index: 1;
+  width: min(90vw, 440px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  animation: popIn 0.28s ease-out;
+}
+
+.expense-modal-content img {
+  width: 62px;
+  height: 70px;
+  flex: 0 0 62px;
+  object-fit: contain;
+}
+
+.expense-modal-bubble {
+  position: relative;
+  width: 340px;
+  min-height: 80px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-input) var(--radius-card-lg) var(--radius-card-lg);
+  background: #FFF29A;
+  color: #784D09;
+  text-align: left;
+  font-family: var(--font-hand);
+  font-size: 18px;
+  line-height: 1.5;
+  box-shadow: var(--shadow);
+}
+
+.expense-modal-bubble::before {
+  content: '';
+  position: absolute;
+  left: -14px;
+  top: 0;
+  border-top: 16px solid #FFF29A;
+  border-left: 16px solid transparent;
+}
+
+/* ============================================
+   반응형
+   ============================================ */
+@media (max-width: 390px) {
+  .expense-main         { padding-inline: var(--space-2); }
+  .expense-card         { padding-left: 44px; padding-right: var(--space-3); }
+  .card-title           { font-size: 24px; }
+  .category-grid        { gap: 6px; }
+  .category-btn         { width: 50px; height: 50px; }
+  .category-label       { font-size: var(--text-caption); }
+  .amount-input-wrap input { font-size: 40px; }
+  .expense-modal-bubble { font-size: 16px; }
+}

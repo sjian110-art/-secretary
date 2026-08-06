@@ -1,0 +1,500 @@
+/* ============================================
+   history.css — 소비내역 화면 전용 스타일
+   common.css 다음에 불러옵니다.
+   ============================================ */
+
+/* ---- 화면 전용 변수 ---- */
+:root {
+  --history-yellow: #FFF5A2;
+  --history-deep-green: var(--color-primary-dark);
+  --font-display: 'Black Han Sans', sans-serif;
+  --font-hand: 'Gamja Flower', cursive;
+  --font-serif: 'Hahmlet', serif;
+}
+
+/* ---- 화면 컨테이너 ---- */
+#history-screen {
+  font-family: var(--font-serif);
+  padding-bottom: 90px;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.logo-image {
+  width: 90px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* ============================================
+   메인
+   ============================================ */
+.history-main {
+  flex: 1;
+  padding: var(--space-3) var(--space-3) 130px;
+}
+
+/* ============================================
+   월별 합계 행
+   ============================================ */
+.expense-summary-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.expense-label {
+  font-size: var(--text-body);
+  font-weight: var(--fw-bold);
+  white-space: nowrap;
+}
+
+/* 월 선택 드롭다운 */
+.month-selector {
+  position: relative;
+  z-index: 20;
+}
+
+.month-dropdown {
+  height: 38px;
+  padding: 0 var(--space-2) 0 var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-pill);
+  background: var(--color-yellow-light);
+  font-size: var(--text-sm);
+  box-shadow: var(--shadow-sm);
+  transition: background-color var(--transition);
+}
+
+.month-dropdown svg {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  transition: transform var(--transition);
+}
+
+.month-dropdown path {
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.month-dropdown[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+.month-menu[hidden] {
+  display: none;
+}
+
+.month-menu {
+  position: absolute;
+  top: 46px;
+  left: 0;
+  width: 200px;
+  padding: var(--space-2);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-card-sm);
+  background: #FFFDF0;
+  box-shadow: var(--shadow);
+  animation: slideUp var(--transition);
+}
+
+.month-menu button {
+  height: 33px;
+  border-radius: var(--radius-tag);
+  background: var(--color-yellow-light);
+  color: var(--color-text-sub);
+  font-size: 13px;
+  transition: background-color var(--transition);
+}
+
+.month-menu button:hover,
+.month-menu button:focus-visible {
+  background: var(--color-primary-bg);
+}
+
+.month-menu button.selected {
+  background: var(--color-primary);
+  color: var(--color-text-white);
+  font-weight: var(--fw-bold);
+}
+
+/* 총 지출 금액 */
+.expense-amount {
+  margin-top: var(--space-1);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--color-primary-dark);
+  font-family: var(--font-display);
+  font-size: 50px;
+  line-height: 1;
+}
+
+.won-sign {
+  font-family: var(--font-serif);
+  font-size: 44px;
+  font-weight: var(--fw-medium);
+}
+
+/* ============================================
+   카테고리 필터
+   ============================================ */
+.category-filters {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.filter-btn {
+  height: 48px;
+  border-radius: var(--radius-pill);
+  background: var(--color-cream-dark);
+  color: var(--color-text-sub);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+  transition:
+    background-color var(--transition),
+    color var(--transition),
+    transform var(--transition-fast);
+}
+
+.filter-btn.active {
+  background: var(--color-primary);
+  color: var(--color-text-white);
+  box-shadow: var(--shadow);
+}
+
+.filter-btn:hover:not(.active) {
+  background: var(--color-primary-bg);
+}
+
+.filter-btn:active {
+  transform: scale(0.96);
+}
+
+/* ============================================
+   거래 목록
+   ============================================ */
+.transaction-groups {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.date-group[hidden] {
+  display: none;
+}
+
+.date-group-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.date-group-title {
+  font-size: var(--text-body);
+  font-weight: var(--fw-bold);
+  white-space: nowrap;
+  background: linear-gradient(transparent 58%, #FFF4A1 58%);
+}
+
+.date-group--past .date-group-title {
+  background: linear-gradient(transparent 58%, var(--color-yellow-light) 58%);
+}
+
+.date-group-line {
+  height: 2px;
+  flex: 1;
+  background: var(--color-gray-300);
+  border-radius: 2px;
+}
+
+.transaction-list {
+  margin-top: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* ---- 거래 카드 ---- */
+.transaction-card {
+  min-height: 108px;
+  padding: var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  border-radius: var(--radius-card-lg);
+  background: var(--history-yellow);
+  box-shadow: var(--shadow);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition);
+}
+
+.transaction-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.date-group--past .transaction-card {
+  background: var(--color-yellow-light);
+}
+
+.transaction-card.is-filtered {
+  display: none;
+}
+
+/* 거래 아이콘 */
+.transaction-icon {
+  width: 52px;
+  height: 52px;
+  flex: 0 0 52px;
+  border-radius: var(--radius-circle);
+  display: grid;
+  place-items: center;
+}
+
+.transaction-icon svg {
+  width: var(--icon-lg);
+  height: var(--icon-lg);
+}
+
+.transaction-icon svg * {
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.transaction-icon--food {
+  background: #FFE897;
+}
+
+.transaction-icon--food svg * {
+  stroke: #8A6420;
+}
+
+.transaction-icon--cafe {
+  background: #D8E3FF;
+}
+
+.transaction-icon--cafe svg * {
+  stroke: #2F5FA8;
+}
+
+.transaction-icon--shopping {
+  background: #FFD7E0;
+}
+
+.transaction-icon--shopping svg * {
+  stroke: #C2477B;
+}
+
+.transaction-icon--transport {
+  background: #DED9B8;
+}
+
+.transaction-icon--transport svg * {
+  stroke: #5C6B4A;
+}
+
+.transaction-icon--transport circle {
+  fill: #5C6B4A;
+  stroke: none;
+}
+
+/* 거래 내용 */
+.transaction-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.transaction-title {
+  overflow: hidden;
+  color: #181810;
+  font-size: 20px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.transaction-desc {
+  margin-top: 6px;
+  color: var(--color-text-sub);
+  font-size: var(--text-sm);
+}
+
+.transaction-amount {
+  color: var(--color-primary-dark);
+  font-size: var(--text-body);
+  font-weight: var(--fw-bold);
+  white-space: nowrap;
+}
+
+/* ============================================
+   진행률 요약 카드 (하단)
+   ============================================ */
+.progress-summary-card {
+  min-height: 256px;
+  margin-top: var(--space-6);
+  padding: var(--space-4) var(--space-3) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: var(--radius-card-lg);
+  background: #FFF6D7;
+  box-shadow: var(--shadow-inset), var(--shadow);
+  box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.12);
+
+}
+
+.mascot-wrap {
+  width: 100px;
+  height: 84px;
+}
+
+.mascot-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.progress-quote {
+  margin-top: var(--space-1);
+  font-family: var(--font-hand);
+  font-size: 20px;
+  color: #181810;
+  text-align: center;
+}
+
+.quote-emoji {
+  font-family: emoji;
+}
+
+.progress-track {
+  width: 100%;
+  height: 16px;
+  margin-top: var(--space-5);
+  border-radius: var(--radius-pill);
+  background: #E9E1BD;
+  overflow: hidden;
+}
+
+.progress-fill {
+  width: 70%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-primary);
+  transition: width var(--transition-slow);
+}
+
+.progress-amount-text {
+  margin-top: var(--space-2);
+  color: var(--color-text-sub);
+  font-size: var(--text-body);
+  font-weight: var(--fw-bold);
+}
+
+/* ============================================
+   FAB 추가 버튼
+   ============================================ */
+.fab-add {
+  position: fixed;
+  right: max(calc((100vw - 480px) / 2 + 20px), 20px);
+  bottom: 90px;
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-circle);
+  display: grid;
+  place-items: center;
+  background: var(--color-primary-dark);
+  box-shadow: 0 6px 20px rgba(62, 100, 51, 0.30);
+  z-index: 1001;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.fab-add:hover {
+  transform: scale(1.06);
+  box-shadow: 0 8px 24px rgba(62, 100, 51, 0.40);
+}
+
+.fab-add:active {
+  transform: scale(0.94);
+}
+
+.fab-add svg {
+  width: var(--icon-lg);
+  height: var(--icon-lg);
+}
+
+.fab-add line {
+  stroke: var(--color-text-white);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+
+/* ============================================
+   반응형
+   ============================================ */
+@media (max-width: 380px) {
+  .history-main {
+    padding-inline: var(--space-2);
+  }
+
+  .expense-label {
+    font-size: var(--text-sm);
+  }
+
+  .expense-amount {
+    font-size: 44px;
+  }
+
+  .won-sign {
+    font-size: 38px;
+  }
+
+  .category-filters {
+    gap: 7px;
+  }
+
+  .filter-btn {
+    font-size: var(--text-caption);
+  }
+
+  .transaction-card {
+    padding-inline: var(--space-2);
+    gap: var(--space-1);
+  }
+
+  .transaction-icon {
+    width: 46px;
+    height: 46px;
+    flex-basis: 46px;
+  }
+
+  .transaction-title {
+    font-size: 17px;
+  }
+
+  .transaction-desc {
+    font-size: var(--text-caption);
+  }
+
+  .transaction-amount {
+    font-size: var(--text-sm);
+  }
+}

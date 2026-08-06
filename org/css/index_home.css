@@ -1,0 +1,409 @@
+/* ============================================
+   index_home.css — 홈 화면 전용 스타일
+   common.css 다음에 불러옵니다.
+   ============================================ */
+
+/* ---- 화면 전용 변수 ---- */
+:root {
+  --home-pink: #FFF0FA;
+  --font-hand: 'Gamja Flower', cursive;
+}
+
+/* ---- 화면 컨테이너 ---- */
+#home-screen {
+  min-height: 100vh;
+  padding-bottom: 90px;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+#home-screen .app-header {
+  z-index: 2;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.logo-image {
+  width: 90px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* ============================================
+   홈 메인 레이아웃
+   ============================================ */
+.home-main {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  padding-bottom: 86px;
+}
+
+/* ============================================
+   물주기 액션 영역
+   ============================================ */
+.water-action {
+  position: absolute;
+  top: 13%;
+  left: 0;
+  width: 180px;
+  height: 170px;
+}
+
+/* ---- 말풍선 버튼 ---- */
+.water-bubble-btn {
+  position: absolute;
+  top: 0;
+  left: 40px;
+  width: 130px;
+  height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  border-radius: var(--radius-card-sm);
+  background: var(--color-primary);
+  color: var(--color-text-white);
+  font-family: var(--font-hand);
+  font-size: 22px;
+  letter-spacing: 1px;
+  transition:
+    transform var(--transition-fast),
+    background-color var(--transition);
+}
+
+.water-bubble-btn:hover {
+  background-color: #95BC8B;
+}
+
+.water-bubble-btn::after {
+  content: '';
+  position: absolute;
+  left: 32px;
+  bottom: -18px;
+  width: 40px;
+  height: 28px;
+  background: var(--color-primary);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+  border-radius: 0 0 0 6px;
+}
+
+.water-bubble-btn:active,
+.water-bubble-btn.water-btn--active {
+  transform: scale(0.96);
+}
+
+/* 물방울 아이콘 */
+.water-icon {
+  width: 22px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.water-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.water-icon path {
+  fill: var(--color-text-white);
+}
+
+/* ---- 수도꼭지 아이콘 ---- */
+.faucet-icon {
+  position: absolute;
+  top: 92px;
+  left: 10px;
+  width: 52px;
+  height: 52px;
+  overflow: visible;
+  transition: transform var(--transition-fast);
+}
+
+.faucet-icon:active {
+  transform: scale(0.94);
+}
+
+.faucet-icon>img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+}
+
+.water-stream {
+  z-index: 1;
+}
+
+.water-drop {
+  z-index: 1;
+}
+
+/* ---- 물줄기 ---- */
+.water-stream {
+  position: absolute;
+  top: 42px;
+  /* 36 → 42 */
+  left: 44px;
+  width: 4px;
+  height: 0;
+  border-radius: 0 0 7px 7px;
+  background: linear-gradient(90deg, #91D9F5, #D8F7FF 48%, #68C6EB);
+  opacity: 0;
+  transform-origin: top;
+}
+
+.water-drop {
+  position: absolute;
+  top: 45px;
+  /* 39 → 45 */
+  left: 43px;
+  width: 7px;
+  height: 10px;
+  border-radius: 55% 55% 60% 60%;
+  background: #87D7F4;
+  opacity: 0;
+  clip-path: polygon(50% 0, 100% 58%, 88% 88%, 50% 100%, 12% 88%, 0 58%);
+}
+
+/* 물 흐름 애니메이션 */
+.faucet-icon.is-running .water-stream {
+  animation: waterFlow 1.5s ease-in-out;
+}
+
+.faucet-icon.is-running .water-drop {
+  animation: waterDrop 0.72s ease-in infinite;
+}
+
+.faucet-icon.is-running .water-drop--two {
+  animation-delay: 0.22s;
+}
+
+.faucet-icon.is-running .water-drop--three {
+  animation-delay: 0.44s;
+}
+
+@keyframes waterFlow {
+  0% {
+    height: 0;
+    opacity: 0;
+  }
+
+  12%,
+  78% {
+    height: 56px;
+    opacity: 0.95;
+  }
+
+  100% {
+    height: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes waterDrop {
+  0% {
+    transform: translateY(0) scale(0.65);
+    opacity: 0;
+  }
+
+  15%,
+  85% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(82px) scale(1);
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   새싹 (마스코트)
+   ============================================ */
+.sprout-wrapper {
+  position: absolute;
+  top: 37%;
+  left: 50%;
+  width: min(54vw, 260px);
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  transform-origin: 50% 90%;
+  overflow: visible;
+}
+
+.sprout-wrapper img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.sprout-wrapper.is-bouncing {
+  animation: sproutBounce 0.62s ease-out;
+}
+
+@keyframes sproutBounce {
+
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0) scaleY(1);
+  }
+
+  22% {
+    transform: translateX(-50%) translateY(-20px) scaleY(1.02);
+  }
+
+  40% {
+    transform: translateX(-50%) translateY(0) scaleY(0.96);
+  }
+
+  62% {
+    transform: translateX(-50%) translateY(-10px) scaleY(1.01);
+  }
+
+  78% {
+    transform: translateX(-50%) translateY(0) scaleY(0.98);
+  }
+}
+
+/* ============================================
+   상태 카드 (하단)
+   ============================================ */
+.status-card {
+  position: absolute;
+  left: var(--space-3);
+  right: var(--space-3);
+  bottom: var(--space-3);
+  min-height: 102px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid #EFDDEB;
+  border-radius: var(--radius-card-lg);
+  background: var(--home-pink);
+  box-shadow: var(--shadow);
+}
+
+.status-icon {
+  width: 56px;
+  height: 56px;
+  flex: 0 0 56px;
+  border-radius: var(--radius-circle);
+  display: grid;
+  place-items: center;
+  background: #FFF39B;
+}
+
+.status-icon svg {
+  width: 34px;
+  height: 34px;
+}
+
+.status-icon path:first-child {
+  fill: #7D4B05;
+}
+
+.status-icon path:last-child {
+  stroke: var(--color-text-white);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  opacity: 0.5;
+}
+
+.status-content {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.status-title {
+  color: #21160F;
+  font-family: var(--font-hand);
+  font-size: 20px;
+  font-weight: var(--fw-regular);
+  letter-spacing: 1px;
+}
+
+.status-desc {
+  color: var(--color-text-sub);
+  font-family: var(--font-hand);
+  font-size: 17px;
+  white-space: nowrap;
+}
+
+/* ============================================
+   반응형
+   ============================================ */
+@media (max-height: 760px) {
+  .water-action {
+    top: 8%;
+  }
+
+  .sprout-wrapper {
+    top: 31%;
+    width: min(48vw, 230px);
+  }
+
+  .status-card {
+    min-height: 88px;
+    padding-block: var(--space-2);
+  }
+
+  .status-icon {
+    width: 50px;
+    height: 50px;
+    flex-basis: 50px;
+  }
+
+  .status-title {
+    font-size: 18px;
+  }
+
+  .status-desc {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 380px) {
+  .water-bubble-btn {
+    left: 28px;
+    width: 118px;
+    height: 70px;
+    font-size: 20px;
+  }
+
+  .sprout-wrapper {
+    width: 58vw;
+  }
+
+  .status-card {
+    left: var(--space-2);
+    right: var(--space-2);
+    padding-inline: var(--space-2);
+    gap: var(--space-2);
+  }
+
+  .status-icon {
+    width: 50px;
+    height: 50px;
+    flex-basis: 50px;
+  }
+
+  .status-title {
+    font-size: 17px;
+  }
+
+  .status-desc {
+    font-size: 15px;
+  }
+}
