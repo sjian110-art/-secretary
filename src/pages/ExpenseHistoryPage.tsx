@@ -462,9 +462,6 @@ export const ExpenseHistoryPage: React.FC = () => {
     setHeaderConfig({
       showBackButton: false,
       title: undefined,
-      onRightClick: () => {
-        window.alert('새로운 알림이 없습니다.');
-      },
     });
 
     // Load from LocalStorage

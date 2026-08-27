@@ -668,9 +668,6 @@ export const StatisticsPage: React.FC = () => {
     setHeaderConfig({
       showBackButton: false,
       title: undefined,
-      onRightClick: () => {
-        window.alert('새로운 알림이 없습니다.');
-      },
     });
 
     const stored = localStorage.getItem('expenses');

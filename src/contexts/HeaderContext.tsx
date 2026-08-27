@@ -5,6 +5,8 @@ export interface HeaderConfig {
   title?: string | React.ReactNode;
   rightIcon?: React.ReactNode;
   onRightClick?: () => void;
+  showNotification?: boolean;
+  isModalOpen?: boolean;
 }
 
 interface HeaderContextType {
@@ -20,6 +22,8 @@ export const HeaderProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     title: undefined,
     rightIcon: undefined,
     onRightClick: undefined,
+    showNotification: true,
+    isModalOpen: false,
   });
 
   const setHeaderConfig = useCallback((config: HeaderConfig) => {

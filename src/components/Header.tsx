@@ -9,6 +9,7 @@ export interface HeaderProps {
   title?: string | React.ReactNode;
   rightIcon?: React.ReactNode;
   onRightClick?: () => void;
+  showNotification?: boolean;
 }
 
 const HeaderContainer = styled.header`
@@ -116,8 +117,13 @@ export const Header: React.FC<HeaderProps> = ({
   title,
   rightIcon,
   onRightClick,
+  showNotification = true,
 }) => {
   const navigate = useNavigate();
+
+  const handleNotificationClick = onRightClick || (() => {
+    navigate('/notification');
+  });
 
   return (
     <HeaderContainer>
@@ -146,12 +152,12 @@ export const Header: React.FC<HeaderProps> = ({
         )}
       </HeaderLeft>
 
-      {onRightClick && rightIcon ? (
+      {rightIcon ? (
         <IconButton onClick={onRightClick} aria-label="오른쪽 버튼" type="button">
           {rightIcon}
         </IconButton>
-      ) : onRightClick ? (
-        <IconButton onClick={onRightClick} aria-label="알림" type="button">
+      ) : showNotification ? (
+        <IconButton onClick={handleNotificationClick} aria-label="알림" type="button">
           <svg viewBox="0 0 24 24" fill="none">
             <path
               d="M12 2C10.3 2 9 3.3 9 5V5.4C6.6 6.2 5 8.4 5 11V15L3 18H21L19 15V11C19 8.4 17.4 6.2 15 5.4V5C15 3.3 13.7 2 12 2Z"

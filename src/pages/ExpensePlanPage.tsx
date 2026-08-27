@@ -647,9 +647,6 @@ export const ExpensePlanPage: React.FC = () => {
     setHeaderConfig({
       showBackButton: false,
       title: undefined,
-      onRightClick: () => {
-        window.alert('새로운 알림이 없습니다.');
-      },
     });
 
     // Load budget & attitude from localStorage if present

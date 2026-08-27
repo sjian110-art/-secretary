@@ -17,6 +17,7 @@ export const MainLayout: React.FC = () => {
         title={headerConfig.title}
         rightIcon={headerConfig.rightIcon}
         onRightClick={headerConfig.onRightClick}
+        showNotification={headerConfig.showNotification}
       />
       <MainContent>
         <Outlet />

@@ -238,9 +238,9 @@ const ActionBtnSave = styled.button`
 const PopupOverlay = styled.div`
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(8px);
-  z-index: 1000;
+  z-index: 2000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -558,9 +558,6 @@ export const ChallengePage: React.FC = () => {
     setHeaderConfig({
       showBackButton: false,
       title: undefined,
-      onRightClick: () => {
-        window.alert('새로운 알림이 없습니다.');
-      },
     });
 
     const savedName = localStorage.getItem('challenge_name');
@@ -581,6 +578,15 @@ export const ChallengePage: React.FC = () => {
     const savedReward = localStorage.getItem('challenge_reward');
     if (savedReward) setRewardText(savedReward);
   }, [setHeaderConfig]);
+
+  // 팝업 오픈 상태를 전역 헤더 컨텍스트에 동기화
+  useEffect(() => {
+    setHeaderConfig({
+      showBackButton: false,
+      title: undefined,
+      isModalOpen: isPopupOpen,
+    });
+  }, [isPopupOpen, setHeaderConfig]);
 
   // 계산 영역
   const remainingAmount = Math.max(goalAmount - currentSavings, 0);
@@ -765,8 +771,8 @@ export const ChallengePage: React.FC = () => {
 
       {/* 챌린지 수정 팝업 */}
       {isPopupOpen && (
-        <PopupOverlay>
-          <PopupCard id="challenge-edit-popup">
+        <PopupOverlay onClick={() => setIsPopupOpen(false)}>
+          <PopupCard id="challenge-edit-popup" onClick={(e) => e.stopPropagation()}>
             <PopupCloseBtn onClick={() => setIsPopupOpen(false)}>×</PopupCloseBtn>
             <PopupTitle>비상금 챌린지 수정</PopupTitle>
             <PopupCharacter>

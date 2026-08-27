@@ -19,6 +19,8 @@ import BudgetEditPage from './pages/BudgetEditPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import AssistantSettingsPage from './pages/AssistantSettingsPage';
 import RoomDecoratePage from './pages/RoomDecoratePage';
+import NotificationSettingsPage from './pages/NotificationSettingsPage';
+import CustomerServicePage from './pages/CustomerServicePage';
 
 export const router = createBrowserRouter([
   {
@@ -46,6 +48,8 @@ export const router = createBrowserRouter([
       { path: 'expense/plan', element: <ExpensePlanPage /> },
       { path: 'challenge', element: <ChallengePage /> },
       { path: 'mypage', element: <MyPage /> },
+      { path: 'mypage/notification-settings', element: <NotificationSettingsPage /> },
+      { path: 'mypage/customer-service', element: <CustomerServicePage /> },
       { path: 'statistics', element: <StatisticsPage /> },
       { path: 'daily-log', element: <DailyLogPage /> },
       { path: 'expense/plan/edit', element: <BudgetEditPage /> },

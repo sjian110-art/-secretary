@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useHeader } from '../contexts/HeaderContext';
 
-const NavContainer = styled.nav`
+const NavContainer = styled.nav<{ $isModalOpen: boolean }>`
   position: fixed;
   bottom: 0;
   left: 50%;
@@ -17,6 +18,11 @@ const NavContainer = styled.nav`
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
   border-radius: ${({ theme }) => `${theme.radius.nav} ${theme.radius.nav} 0 0`};
   z-index: 1000;
+
+  /* 모달 팝업 오픈 시 탭바 전체 비활성화 및 투명화 */
+  opacity: ${({ $isModalOpen }) => ($isModalOpen ? 0.45 : 1)};
+  pointer-events: ${({ $isModalOpen }) => ($isModalOpen ? 'none' : 'auto')};
+  transition: opacity 0.25s ease;
 `;
 
 const NavItem = styled.button<{ $isActive: boolean }>`
@@ -69,6 +75,9 @@ export const BottomNavigation: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { pathname } = location;
+  const { headerConfig } = useHeader();
+
+  const isModalOpen = headerConfig.isModalOpen || pathname === '/notification';
 
   const isTabActive = (tab: 'home' | 'expense' | 'plan' | 'mypage') => {
     switch (tab) {
@@ -86,27 +95,27 @@ export const BottomNavigation: React.FC = () => {
   };
 
   return (
-    <NavContainer aria-label="주요 메뉴">
+    <NavContainer aria-label="주요 메뉴" $isModalOpen={isModalOpen}>
       <NavItem
-        $isActive={isTabActive('home')}
+        $isActive={isTabActive('home') && !isModalOpen}
         onClick={() => navigate('/home')}
-        aria-current={isTabActive('home') ? 'page' : undefined}
+        aria-current={(isTabActive('home') && !isModalOpen) ? 'page' : undefined}
       >
-        <NavIconWrap $isActive={isTabActive('home')}>
+        <NavIconWrap $isActive={isTabActive('home') && !isModalOpen}>
           <svg viewBox="0 0 24 24" fill="none">
             <path d="M4 11L12 4L20 11" />
             <path d="M6 9.5V20H18V9.5" />
           </svg>
         </NavIconWrap>
-        <NavLabel $isActive={isTabActive('home')}>홈</NavLabel>
+        <NavLabel $isActive={isTabActive('home') && !isModalOpen}>홈</NavLabel>
       </NavItem>
 
       <NavItem
-        $isActive={isTabActive('expense')}
+        $isActive={isTabActive('expense') && !isModalOpen}
         onClick={() => navigate('/expense/history')}
-        aria-current={isTabActive('expense') ? 'page' : undefined}
+        aria-current={(isTabActive('expense') && !isModalOpen) ? 'page' : undefined}
       >
-        <NavIconWrap $isActive={isTabActive('expense')}>
+        <NavIconWrap $isActive={isTabActive('expense') && !isModalOpen}>
           <svg viewBox="0 0 24 24" fill="none">
             <rect x="5" y="3" width="14" height="18" rx="2" />
             <line x1="8" y1="8" x2="16" y2="8" />
@@ -114,15 +123,15 @@ export const BottomNavigation: React.FC = () => {
             <line x1="8" y1="16" x2="13" y2="16" />
           </svg>
         </NavIconWrap>
-        <NavLabel $isActive={isTabActive('expense')}>지출</NavLabel>
+        <NavLabel $isActive={isTabActive('expense') && !isModalOpen}>지출</NavLabel>
       </NavItem>
 
       <NavItem
-        $isActive={isTabActive('plan')}
+        $isActive={isTabActive('plan') && !isModalOpen}
         onClick={() => navigate('/expense/plan')}
-        aria-current={isTabActive('plan') ? 'page' : undefined}
+        aria-current={(isTabActive('plan') && !isModalOpen) ? 'page' : undefined}
       >
-        <NavIconWrap $isActive={isTabActive('plan')}>
+        <NavIconWrap $isActive={isTabActive('plan') && !isModalOpen}>
           <svg viewBox="0 0 24 24" fill="none">
             <rect x="4" y="5" width="16" height="16" rx="2" />
             <line x1="4" y1="10" x2="20" y2="10" />
@@ -130,21 +139,21 @@ export const BottomNavigation: React.FC = () => {
             <line x1="16" y1="3" x2="16" y2="7" />
           </svg>
         </NavIconWrap>
-        <NavLabel $isActive={isTabActive('plan')}>계획</NavLabel>
+        <NavLabel $isActive={isTabActive('plan') && !isModalOpen}>계획</NavLabel>
       </NavItem>
 
       <NavItem
-        $isActive={isTabActive('mypage')}
+        $isActive={isTabActive('mypage') && !isModalOpen}
         onClick={() => navigate('/mypage')}
-        aria-current={isTabActive('mypage') ? 'page' : undefined}
+        aria-current={(isTabActive('mypage') && !isModalOpen) ? 'page' : undefined}
       >
-        <NavIconWrap $isActive={isTabActive('mypage')}>
+        <NavIconWrap $isActive={isTabActive('mypage') && !isModalOpen}>
           <svg viewBox="0 0 24 24" fill="none">
             <circle cx="12" cy="8" r="4" />
             <path d="M4 20C4 16 7.5 14 12 14C16.5 14 20 16 20 20" />
           </svg>
         </NavIconWrap>
-        <NavLabel $isActive={isTabActive('mypage')}>마이페이지</NavLabel>
+        <NavLabel $isActive={isTabActive('mypage') && !isModalOpen}>마이페이지</NavLabel>
       </NavItem>
     </NavContainer>
   );
