@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled, { keyframes, css } from 'styled-components';
 import { Header } from '../components/Header';
 import { Modal } from '../components/Modal';
+import { BottomNavigation } from '../components/BottomNavigation';
 import mongReport from '../assets/mascot/mong_report.png';
 
 const popIn = keyframes`
@@ -12,14 +13,16 @@ const popIn = keyframes`
 
 const ExpenseContainer = styled.div`
   min-height: 100vh;
-  padding-bottom: 100px;
+  padding-bottom: 100px; /* 바텀네비 높이를 고려한 여백 */
   background-color: ${({ theme }) => theme.colors.cream};
-  font-family: ${({ theme }) => theme.fonts.serif};
+  font-family: ${({ theme }) => theme.fonts.body};
+  display: flex;
+  flex-direction: column;
 `;
 
 const ExpenseMain = styled.main`
   flex: 1;
-  padding: ${({ theme }) => `${theme.spacing[3]} ${theme.spacing[3]} ${theme.spacing[6]}`};
+  padding: ${({ theme }) => `${theme.spacing[3]} ${theme.spacing[3]} ${theme.spacing[4]}`};
 
   @media (max-width: 390px) {
     padding-inline: ${({ theme }) => theme.spacing[2]};
@@ -29,9 +32,9 @@ const ExpenseMain = styled.main`
 const ExpenseCard = styled.section`
   position: relative;
   width: 100%;
-  min-height: 720px;
-  padding: ${({ theme }) => `${theme.spacing[4]} ${theme.spacing[4]} ${theme.spacing[4]} 52px`};
-  border-radius: ${({ theme }) => theme.radius.cardLg};
+  min-height: 820px;
+  padding: 32px 32px 32px 52px;
+  border-radius: 28px;
   background: ${({ theme }) => theme.colors.surface};
   box-shadow: ${({ theme }) => theme.shadow.default};
 
@@ -43,20 +46,24 @@ const ExpenseCard = styled.section`
 
 const StepIndicator = styled.div`
   position: absolute;
-  top: 105px;
-  bottom: 72px;
+  top: 108px;
+  bottom: 140px;
   left: 18px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-width: 390px) {
+    left: 14px;
+  }
 `;
 
 const StepDot = styled.span<{ $isActive: boolean }>`
   display: block;
   width: 16px;
   height: 16px;
-  border-radius: ${({ theme }) => theme.radius.circle};
+  border-radius: 50%;
   background: ${({ theme, $isActive }) =>
     $isActive ? theme.colors.primary : theme.colors.gray300};
   transition: background-color ${({ theme }) => theme.transition.default};
@@ -65,12 +72,13 @@ const StepDot = styled.span<{ $isActive: boolean }>`
 const ExpenseForm = styled.form`
   display: flex;
   flex-direction: column;
+  gap: 28px;
 `;
 
 const CardTitle = styled.h1`
-  margin-bottom: ${({ theme }) => theme.spacing[4]};
+  margin-bottom: 8px;
   color: #181800;
-  font-family: ${({ theme }) => theme.fonts.display};
+  font-family: ${({ theme }) => theme.fonts.title};
   font-size: 28px;
   font-weight: 400;
   line-height: 1.2;
@@ -87,9 +95,11 @@ const FormStep = styled.div`
 
 const StepLabel = styled.label`
   display: block;
-  color: ${({ theme }) => theme.colors.textSub};
-  font-size: 16px;
+  color: #8C8A79;
+  font-family: ${({ theme }) => theme.fonts.hand};
+  font-size: 20px;
   font-weight: 500;
+  margin-bottom: 8px;
 `;
 
 const StepFieldset = styled.fieldset`
@@ -99,21 +109,23 @@ const StepFieldset = styled.fieldset`
 
 const StepLegend = styled.legend`
   display: block;
-  color: ${({ theme }) => theme.colors.textSub};
-  font-size: 16px;
+  color: #8C8A79;
+  font-family: ${({ theme }) => theme.fonts.hand};
+  font-size: 20px;
   font-weight: 500;
+  margin-bottom: 8px;
 `;
 
 const AmountStep = styled(FormStep)`
-  margin-bottom: ${({ theme }) => theme.spacing[5]};
+  margin-bottom: 4px;
 `;
 
 const AmountInputWrap = styled.div`
-  height: 90px;
-  margin: ${({ theme }) => `${theme.spacing[1]} ${theme.spacing[2]} 0 ${theme.spacing[1]}`};
+  height: 76px;
+  margin-top: 4px;
   display: flex;
   align-items: flex-end;
-  border-bottom: 4px solid ${({ theme }) => theme.colors.primaryBg};
+  border-bottom: 4px solid #C8D7C4; /* 옅은 올리브선 */
   transition: border-color ${({ theme }) => theme.transition.default};
 
   &:focus-within {
@@ -124,47 +136,47 @@ const AmountInputWrap = styled.div`
 const AmountInput = styled.input`
   width: 100%;
   min-width: 0;
-  height: 64px;
+  height: 60px;
   padding: 0 6px 2px;
   border: 0;
   outline: 0;
   background: transparent;
   color: ${({ theme }) => theme.colors.primaryDark};
   text-align: right;
-  font-size: 46px;
+  font-size: 44px;
   font-weight: 700;
-  font-family: ${({ theme }) => theme.fonts.serif};
+  font-family: ${({ theme }) => theme.fonts.body};
 
   &::placeholder {
-    color: ${({ theme }) => theme.colors.gray300};
+    color: #E3DEC3;
   }
 
   @media (max-width: 390px) {
-    font-size: 40px;
+    font-size: 38px;
   }
 `;
 
 const CurrencyUnit = styled.span`
-  padding: 0 0 6px 8px;
-  color: ${({ theme }) => theme.colors.primaryDark};
+  padding: 0 0 8px 8px;
+  color: #2B4C20;
   font-family: ${({ theme }) => theme.fonts.hand};
-  font-size: 34px;
+  font-size: 30px;
   flex-shrink: 0;
+  font-weight: 700;
 `;
 
 const CategoryStep = styled(FormStep)`
-  margin-bottom: ${({ theme }) => theme.spacing[5]};
+  margin-bottom: 4px;
 `;
 
 const CategoryGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: ${({ theme }) => theme.spacing[1]};
-  margin-top: ${({ theme }) => theme.spacing[3]};
-  transform: translateX(-8px);
+  gap: 8px;
+  margin-top: 8px;
 
   @media (max-width: 390px) {
-    gap: 6px;
+    gap: 4px;
   }
 `;
 
@@ -172,25 +184,25 @@ const CategoryItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing[1]};
+  gap: 6px;
 `;
 
 const CategoryBtn = styled.button<{ $isActive: boolean }>`
-  width: 58px;
-  height: 58px;
-  border-radius: ${({ theme }) => theme.radius.circle};
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
   display: grid;
   place-items: center;
-  background: #FFF9D9; /* pale yellow */
-  color: #936000;
+  background: #FFFBE0; /* 시안 미선택 컬러 */
+  color: #906212; /* 짙은 카키/브라운 아이콘 */
   transition:
     background-color ${({ theme }) => theme.transition.default},
     transform ${({ theme }) => theme.transition.default},
     box-shadow ${({ theme }) => theme.transition.default};
 
   svg {
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
   }
 
   svg * {
@@ -213,24 +225,25 @@ const CategoryBtn = styled.button<{ $isActive: boolean }>`
     $isActive &&
     css`
       background: #FFF59C !important;
-      box-shadow: 0 0 0 3px rgba(133, 174, 123, 0.35);
-      transform: translateY(-3px);
+      box-shadow: 0 0 0 3px rgba(133, 174, 123, 0.4);
+      transform: translateY(-2px);
     `}
 
   &:hover {
     background: #FFF59C;
-    transform: translateY(-3px);
+    transform: translateY(-2px);
   }
 
   @media (max-width: 390px) {
-    width: 50px;
-    height: 50px;
+    width: 46px;
+    height: 46px;
   }
 `;
 
 const CategoryLabel = styled.span`
   color: ${({ theme }) => theme.colors.text};
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: 500;
   white-space: nowrap;
 
   @media (max-width: 390px) {
@@ -238,50 +251,92 @@ const CategoryLabel = styled.span`
   }
 `;
 
+const ImageStep = styled(FormStep)`
+  margin-bottom: 4px;
+`;
+
+const ImageUploadBox = styled.div`
+  width: 100%;
+  aspect-ratio: 1.35;
+  border: 2px dashed #B8C4B5;
+  border-radius: 28px;
+  background-color: #FFFBDC;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.primary};
+    background-color: #FFF9D0;
+  }
+`;
+
+const ImagePreview = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 26px;
+`;
+
+const UploadText = styled.span`
+  color: #5C524B;
+  font-family: ${({ theme }) => theme.fonts.hand};
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+`;
+
 const MemoStep = styled(FormStep)`
-  margin-bottom: ${({ theme }) => theme.spacing[4]};
+  margin-bottom: 8px;
 `;
 
 const MemoInputWrap = styled.div`
   position: relative;
-  height: 160px;
-  margin: ${({ theme }) => theme.spacing[2]} 0 0 -8px;
-  padding: ${({ theme }) => `${theme.spacing[4]} ${theme.spacing[4]} ${theme.spacing[3]}`};
-  border-radius: ${({ theme }) => theme.radius.cardLg};
+  height: 130px;
+  margin-top: 8px;
+  padding: 16px 20px;
+  border-radius: 28px;
   background: #FFFBDC;
   box-shadow: ${({ theme }) => theme.shadow.inset};
 `;
 
 const MemoTextarea = styled.textarea`
   width: 100%;
-  height: 76px;
+  height: 72px;
   border: 0;
   outline: 0;
   resize: none;
   background: transparent;
-  color: ${({ theme }) => theme.colors.textSub};
-  font-size: 16px;
-  line-height: 1.55;
-  font-family: ${({ theme }) => theme.fonts.serif};
+  color: #5C524B;
+  font-size: 17px;
+  line-height: 1.5;
+  font-family: ${({ theme }) => theme.fonts.hand};
 
   &::placeholder {
-    color: #9A9A8E;
+    color: #A39E88;
   }
 `;
 
 const MemoDecorLine = styled.div`
   position: absolute;
-  left: 19px;
-  right: 19px;
-  bottom: ${({ theme }) => theme.spacing[3]};
-  height: 3px;
-  background: ${({ theme }) => theme.colors.gray300};
-  border-radius: 2px;
+  left: 20px;
+  right: 20px;
+  bottom: 24px;
+  height: 2px;
+  background: #E2DFCD;
+  border-radius: 1px;
 `;
 
 const CharCounter = styled.span<{ $show: boolean }>`
   position: absolute;
-  right: ${({ theme }) => theme.spacing[3]};
+  right: 20px;
   bottom: 6px;
   color: ${({ theme }) => theme.colors.gray500};
   font-size: 12px;
@@ -290,17 +345,17 @@ const CharCounter = styled.span<{ $show: boolean }>`
 `;
 
 const SubmitAction = styled.div`
-  padding: 0 ${({ theme }) => theme.spacing[2]};
+  margin-top: 12px;
 `;
 
 const BtnSubmit = styled.button`
   width: 100%;
-  height: ${({ theme }) => theme.size.btnHeight};
-  border-radius: ${({ theme }) => theme.radius.btn};
+  height: 56px;
+  border-radius: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: ${({ theme }) => theme.spacing[1]};
+  gap: 8px;
   background: ${({ theme }) => theme.colors.primary};
   box-shadow: 0 4px 0 ${({ theme }) => theme.colors.primaryDeep};
   color: ${({ theme }) => theme.colors.textWhite};
@@ -324,8 +379,11 @@ const BtnSubmit = styled.button`
 `;
 
 const PencilIcon = styled.span`
-  width: ${({ theme }) => theme.icon.md};
-  height: ${({ theme }) => theme.icon.md};
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
 
   svg {
@@ -335,18 +393,18 @@ const PencilIcon = styled.span`
 
   path {
     stroke: currentColor;
-    stroke-width: 2;
+    stroke-width: 2.2;
     stroke-linecap: round;
   }
 `;
 
-/* Success Bubble popup inside Modal */
 const ModalContent = styled.div`
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: ${({ theme }) => theme.spacing[1]};
+  aria-hidden: "true";
   animation: ${popIn} 0.28s ease-out;
 `;
 
@@ -390,10 +448,12 @@ export const ExpenseWritePage: React.FC = () => {
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('');
   const [memo, setMemo] = useState('');
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [isMemoFocused, setIsMemoFocused] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const amountInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const categories = [
     {
@@ -472,6 +532,22 @@ export const ExpenseWritePage: React.FC = () => {
     }
   };
 
+  const handleBoxClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // FileReader to convert file to Base64 String
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImageSrc(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const cleanAmount = amount.replace(/[^\d]/g, '');
@@ -487,7 +563,6 @@ export const ExpenseWritePage: React.FC = () => {
       return;
     }
 
-    // Save mock expense object
     const selectedCategoryObj = categories.find((cat) => cat.id === category);
     const newExpense = {
       id: Date.now(),
@@ -495,10 +570,10 @@ export const ExpenseWritePage: React.FC = () => {
       category,
       categoryName: selectedCategoryObj?.name || '기타',
       memo: memo.trim(),
+      image: imageSrc, // 이미지 파일의 base64 주소를 저장하여 다른 리스트나 디테일 뷰에서 활용할 수 있게 함!
       createdAt: new Date().toISOString(),
     };
 
-    // Save in localStorage as standard array (for HistoryPage binding)
     const existingStr = localStorage.getItem('expenses') || '[]';
     let existingList = [];
     try {
@@ -515,18 +590,17 @@ export const ExpenseWritePage: React.FC = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    // Reset form fields
     setAmount('');
     setCategory('');
     setMemo('');
-    // Route to history
+    setImageSrc(null);
     navigate('/expense/history');
   };
 
   return (
     <ExpenseContainer id="expense-screen">
       <Header
-        showBackButton={true}
+        showBackButton={false} // 시안 디자인에 뒤로가기 버튼이 없음
         onRightClick={() => window.alert('새로운 알림이 없습니다.')}
       />
       <ExpenseMain>
@@ -534,14 +608,15 @@ export const ExpenseWritePage: React.FC = () => {
           <StepIndicator aria-hidden="true">
             <StepDot $isActive={!!amount} />
             <StepDot $isActive={!!category} />
+            <StepDot $isActive={!!imageSrc} />
             <StepDot $isActive={!!memo} />
-            <StepDot $isActive={false} />
             <StepDot $isActive={false} />
           </StepIndicator>
 
           <ExpenseForm onSubmit={handleSubmit} noValidate>
             <CardTitle id="expense-title">오늘의 지출 기록</CardTitle>
 
+            {/* Step 1: 얼마나 썼나요? */}
             <AmountStep id="step-amount">
               <StepLabel htmlFor="amount-input">얼마나 썼나요?</StepLabel>
               <AmountInputWrap>
@@ -561,6 +636,7 @@ export const ExpenseWritePage: React.FC = () => {
               </AmountInputWrap>
             </AmountStep>
 
+            {/* Step 2: 어디에 사용했나요? */}
             <CategoryStep>
               <StepFieldset id="step-category">
                 <StepLegend>어디에 사용했나요?</StepLegend>
@@ -583,6 +659,35 @@ export const ExpenseWritePage: React.FC = () => {
               </StepFieldset>
             </CategoryStep>
 
+            {/* Step 3: 이미지 추가하기 (신규 기능 분기) */}
+            <ImageStep>
+              <StepLabel>이미지 추가하기</StepLabel>
+              <input
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                style={{ display: 'none' }}
+                onChange={handleFileChange}
+              />
+              <ImageUploadBox onClick={handleBoxClick} role="button" tabIndex={0}>
+                {imageSrc ? (
+                  <ImagePreview src={imageSrc} alt="지출 증빙 미리보기" />
+                ) : (
+                  <>
+                    <svg viewBox="0 0 24 24" width="40" height="40" fill="none">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="#7A7A7A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      <circle cx="8.5" cy="8.5" r="1.5" fill="#7A7A7A" />
+                      <polyline points="21 15 16 10 5 21" stroke="#7A7A7A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    <UploadText>
+                      📎 이미지 추가하기
+                    </UploadText>
+                  </>
+                )}
+              </ImageUploadBox>
+            </ImageStep>
+
+            {/* Step 4: 오늘의 한줄 평 */}
             <MemoStep id="step-memo">
               <StepLabel htmlFor="memo-input">오늘의 한줄 평</StepLabel>
               <MemoInputWrap>
@@ -602,6 +707,7 @@ export const ExpenseWritePage: React.FC = () => {
               </MemoInputWrap>
             </MemoStep>
 
+            {/* Step 5: 기록하기 버튼 */}
             <SubmitAction>
               <BtnSubmit type="submit" id="btn-submit">
                 <span>기록하기</span>
@@ -626,7 +732,11 @@ export const ExpenseWritePage: React.FC = () => {
           </ModalBubble>
         </ModalContent>
       </Modal>
+
+      {/* 바텀 네비게이션 탑재 */}
+      <BottomNavigation />
     </ExpenseContainer>
   );
 };
+
 export default ExpenseWritePage;

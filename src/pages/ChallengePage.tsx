@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { useHeader } from '../contexts/HeaderContext';
-import mongLying from '../assets/mascot/mong_lying.png';
+import { BottomNavigation } from '../components/BottomNavigation';
+import mongCurious from '../assets/mascot/mong_curious.png';
 
-interface Mission {
-  id: number;
-  label: string;
-  reward: number;
-  isDone: boolean;
-}
+const ChallengeContainer = styled.div`
+  min-height: 100vh;
+  padding-bottom: 100px;
+  background-color: ${({ theme }) => theme.colors.cream};
+  display: flex;
+  flex-direction: column;
+`;
 
-const ChallengeMain = styled.div`
+const ChallengeMain = styled.main`
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing[4]};
-  padding: ${({ theme }) => `${theme.spacing[3]} ${theme.spacing[3]} ${theme.spacing[6]}`};
+  padding: ${({ theme }) => `${theme.spacing[3]} ${theme.spacing[3]} ${theme.spacing[4]}`};
   font-family: ${({ theme }) => theme.fonts.serif};
 
   @media (max-width: 360px) {
@@ -23,442 +24,536 @@ const ChallengeMain = styled.div`
   }
 `;
 
-const ChallengeCard = styled.section`
-  min-height: 280px;
-  padding: ${({ theme }) => theme.spacing[3]};
-  border: 1px solid #F0DF75;
-  border-radius: ${({ theme }) => theme.radius.cardLg};
-  background: #FFF5A5; /* challenge-yellow */
-  box-shadow: ${({ theme }) => theme.shadow.default};
+const OngoingBadge = styled.div`
+  background-color: #EE4A5E; /* 시안 붉은색 Ongoing Challenge 배지 */
+  border-radius: 14px;
+  color: #FFFFFF;
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: 13px;
+  font-weight: 800;
+  padding: 6px 20px;
+  margin: 0 auto 16px;
+  width: fit-content;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(238, 74, 94, 0.3);
 `;
 
-const ChallengeBadge = styled.span`
-  display: inline-block;
-  margin-bottom: ${({ theme }) => theme.spacing[2]};
-  padding: 5px ${({ theme }) => theme.spacing[2]};
-  border-radius: ${({ theme }) => theme.radius.pill};
-  background: #BA5162;
-  color: ${({ theme }) => theme.colors.textWhite};
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1;
+const TitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+`;
+
+const FireIcon = styled.span`
+  font-size: 24px;
 `;
 
 const ChallengeTitle = styled.h1`
-  color: #171300;
-  font-family: ${({ theme }) => theme.fonts.display};
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 1.25;
-  letter-spacing: -0.5px;
+  color: #21160F;
+  font-family: 'Jua', sans-serif;
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0;
+  text-align: center;
 `;
 
 const ChallengeGoal = styled.p`
-  margin-top: 4px;
-  color: ${({ theme }) => theme.colors.textSub};
+  margin-top: 6px;
+  text-align: center;
+  color: #5C524B;
+  font-family: ${({ theme }) => theme.fonts.body};
   font-size: 16px;
   font-weight: 700;
 `;
 
-const ChallengeAmountText = styled.p`
-  margin-top: ${({ theme }) => theme.spacing[4]};
-  color: ${({ theme }) => theme.colors.primaryDark};
-  font-family: ${({ theme }) => theme.fonts.display};
-  font-size: 40px;
-  line-height: 1;
-  letter-spacing: -0.5px;
+/* 메인 진행률 카드 */
+const MainProgressCard = styled.section`
+  background-color: #FFFDF5;
+  border-radius: 28px;
+  border: 1.5px solid #ECE7D4;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(236, 231, 212, 0.3);
+  margin-bottom: 24px;
+  position: relative;
+`;
 
-  .unit {
-    margin-left: 7px;
-    color: ${({ theme }) => theme.colors.textSub};
-    font-family: ${({ theme }) => theme.fonts.serif};
-    font-size: 20px;
-    font-weight: 500;
+const CardHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+`;
+
+const CardProgressLabel = styled.span`
+  color: #8C8A79;
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: 14px;
+  font-weight: 700;
+`;
+
+const CardDDay = styled.span`
+  color: #8C8A79;
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: 14px;
+  font-weight: 700;
+`;
+
+const SavingsAmountText = styled.p`
+  color: #EE4A5E; /* 붉은색 저금액 */
+  font-family: ${({ theme }) => theme.fonts.display};
+  font-size: 38px;
+  font-weight: 800;
+  margin: 8px 0;
+
+  span {
+    color: #21160F;
+    font-family: 'Jua', sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+    margin-left: 4px;
   }
 `;
 
 const ProgressTrack = styled.div`
   height: 16px;
-  margin-top: ${({ theme }) => theme.spacing[3]};
+  background-color: #FFE6EA; /* 연핑크 트랙 */
+  border-radius: 8px;
   overflow: hidden;
-  border-radius: ${({ theme }) => theme.radius.pill};
-  background: #E9E2BD;
-  box-shadow: ${({ theme }) => theme.shadow.inset};
+  margin-top: 16px;
 `;
 
 const ProgressFill = styled.div<{ $percent: number }>`
   width: ${({ $percent }) => $percent}%;
   height: 100%;
-  border-radius: inherit;
-  background: ${({ theme }) => theme.colors.primary};
-  transition: width ${({ theme }) => theme.transition.slow};
+  border-radius: 8px;
+  background-color: #EE4A5E; /* 붉은색 게이지 */
+  transition: width 0.5s ease-out;
 `;
 
-const ProgressMeta = styled.div`
+/* 상세 대시보드 리스트 */
+const DashboardList = styled.div`
   display: flex;
-  justify-content: space-between;
-  margin-top: ${({ theme }) => theme.spacing[1]};
-  color: ${({ theme }) => theme.colors.textSub};
-  font-size: 16px;
-  font-weight: 700;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
 `;
 
-const SectionTitle = styled.h2`
-  margin: 0 0 ${({ theme }) => theme.spacing[3]} ${({ theme }) => theme.spacing[2]};
-  font-family: ${({ theme }) => theme.fonts.display};
-  font-size: 20px;
-  font-weight: 400;
-  color: ${({ theme }) => theme.colors.text};
-`;
-
-const DashboardGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: ${({ theme }) => `${theme.spacing[3]} ${theme.spacing[2]}`};
-
-  @media (max-width: 360px) {
-    gap: ${({ theme }) => `${theme.spacing[2]} ${theme.spacing[1]}`};
-  }
-`;
-
-const DashCard = styled.article<{ $isLongText?: boolean }>`
-  height: 108px;
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: 39px minmax(0, 1fr);
-  grid-template-rows: 25px 37px 21px;
-  align-items: center;
-  padding: ${({ theme }) => `${theme.spacing[2]} ${theme.spacing[1]} ${theme.spacing[1]}`};
-  border-radius: ${({ theme }) => theme.radius.cardSm};
-  background: #FFFDF8; /* challenge-paper */
-  box-shadow: ${({ theme }) => theme.shadow.default};
-  transition:
-    transform ${({ theme }) => theme.transition.default},
-    box-shadow ${({ theme }) => theme.transition.default};
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10);
-  }
-
-  @media (max-width: 360px) {
-    padding-inline: ${({ theme }) => theme.spacing[1]};
-  }
-`;
-
-const DashTitle = styled.p`
-  grid-column: 2;
-  overflow: hidden;
-  font-size: 14px;
-  font-weight: 500;
-  white-space: nowrap;
-  color: ${({ theme }) => theme.colors.textSub};
-`;
-
-const DashBody = styled.div`
-  grid-column: 1 / 3;
-  grid-row: 2;
-  display: grid;
-  grid-template-columns: 39px minmax(0, 1fr);
-  align-items: center;
-  min-width: 0;
-`;
-
-const DashIcon = styled.span<{ $type: string }>`
-  width: 35px;
-  height: 35px;
-  display: grid;
-  place-items: center;
-
-  svg {
-    width: 32px;
-    height: 32px;
-  }
-
-  ${({ $type }) =>
-    $type === 'fire' &&
-    css`
-      path {
-        fill: #FF7076;
-      }
-    `}
-
-  ${({ $type }) =>
-    $type === 'wallet' &&
-    css`
-      rect:first-child {
-        fill: #A7DF91;
-      }
-      rect:nth-child(2) {
-        fill: #88BD78;
-      }
-      circle {
-        fill: ${({ theme }) => theme.colors.surface};
-      }
-    `}
-
-  ${({ $type }) =>
-    $type === 'target' &&
-    css`
-      circle {
-        stroke: #82BFFF;
-        stroke-width: 1.8;
-      }
-      .target-dot {
-        fill: #82BFFF;
-        stroke: none;
-      }
-    `}
-
-  ${({ $type }) =>
-    $type === 'calendar' &&
-    css`
-      rect,
-      line {
-        stroke: #C99CFF;
-        stroke-width: 1.8;
-        stroke-linecap: round;
-      }
-    `}
-`;
-
-const DashValue = styled.p<{ $customSize?: string }>`
-  min-width: 0;
-  overflow: hidden;
-  color: #344157;
-  font-size: ${({ $customSize }) => $customSize || '24px'};
-  font-weight: 700;
-  letter-spacing: -1px;
-  white-space: nowrap;
-
-  .dash-unit {
-    margin-left: 1px;
-    font-size: 12px;
-  }
-
-  @media (max-width: 360px) {
-    font-size: 20px;
-  }
-`;
-
-const DashCaption = styled.p`
-  grid-column: 2;
-  grid-row: 3;
-  overflow: hidden;
-  color: ${({ theme }) => theme.colors.textSub};
-  font-size: 12px;
-  white-space: nowrap;
-`;
-
-/* Mission card */
-const MissionCardSection = styled.section`
-  margin-top: ${({ theme }) => theme.spacing[1]};
-  padding: ${({ theme }) => `${theme.spacing[3]} ${theme.spacing[2]} ${theme.spacing[2]}`};
-  border-radius: ${({ theme }) => theme.radius.cardLg};
-  background: #FFFDF8;
-  box-shadow: ${({ theme }) => theme.shadow.default};
-`;
-
-const MissionHeader = styled.div`
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 6px 6px ${({ theme }) => theme.spacing[2]};
-`;
-
-const MissionHeaderLeft = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing[1]};
-`;
-
-const MissionHeaderIcon = styled.span`
-  width: 28px;
-  height: 28px;
-  svg {
-    width: 100%;
-    height: 100%;
-  }
-  rect,
-  line {
-    stroke: ${({ theme }) => theme.colors.primaryDark};
-    stroke-width: 1.5;
-    stroke-linecap: round;
-  }
-  rect:nth-child(2) {
-    fill: ${({ theme }) => theme.colors.primaryDark};
-  }
-`;
-
-const MissionTitle = styled.h3`
-  font-family: ${({ theme }) => theme.fonts.display};
-  font-size: 20px;
-  font-weight: 400;
-  color: ${({ theme }) => theme.colors.text};
-`;
-
-const MissionMascot = styled.img`
-  width: 60px;
-  height: 40px;
-  object-fit: contain;
-`;
-
-const MissionList = styled.ul`
-  padding: ${({ theme }) => `${theme.spacing[1]} ${theme.spacing[2]}`};
-  border-radius: ${({ theme }) => theme.radius.cardSm};
-  background: #FFFEFA;
-  box-shadow: ${({ theme }) => theme.shadow.inset};
-`;
-
-const MissionItem = styled.li<{ $isDone: boolean }>`
-  min-height: 36px;
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing[1]};
-  border-bottom: 1px solid #F4EAD8; /* challenge-line */
-  transition: opacity ${({ theme }) => theme.transition.default};
-
-  &:last-child {
-    border-bottom: 0;
-  }
-`;
-
-const MissionCheckBtn = styled.button<{ $isDone: boolean }>`
-  width: 22px;
-  height: 22px;
-  flex: 0 0 22px;
-  display: grid;
-  place-items: center;
-  border: 2px solid ${({ theme }) => theme.colors.gray400};
-  border-radius: ${({ theme }) => theme.radius.circle};
-  background: ${({ theme }) => theme.colors.surface};
-  transition:
-    border-color ${({ theme }) => theme.transition.default},
-    background-color ${({ theme }) => theme.transition.default};
-
-  svg {
-    width: 15px;
-    height: 15px;
-    opacity: ${({ $isDone }) => ($isDone ? 1 : 0)};
-    transition: opacity ${({ theme }) => theme.transition.default};
-  }
-
-  svg path {
-    fill: none;
-    stroke: ${({ theme }) => theme.colors.textWhite};
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
-  ${({ $isDone, theme }) =>
-    $isDone &&
-    css`
-      border-color: ${theme.colors.success};
-      background: ${theme.colors.success};
-    `}
-`;
-
-const MissionLabel = styled.span`
-  flex: 1;
-  font-size: 14px;
-  color: ${({ theme }) => theme.colors.text};
-
-  @media (max-width: 360px) {
-    font-size: 12px;
-  }
-`;
-
-const MissionRewardText = styled.span`
-  color: ${({ theme }) => theme.colors.primaryDark};
-  font-size: 14px;
-  white-space: nowrap;
-
-  @media (max-width: 360px) {
-    font-size: 12px;
-  }
-`;
-
-const MissionBonus = styled.p`
-  margin-top: ${({ theme }) => theme.spacing[2]};
-  padding: ${({ theme }) => `${theme.spacing[1]} 5px`};
-  border-radius: ${({ theme }) => theme.radius.tag};
-  background: ${({ theme }) => theme.colors.successBg};
-  font-size: 12px;
-  text-align: center;
-
-  strong {
-    color: ${({ theme }) => theme.colors.success};
-    font-size: 14px;
-  }
-`;
-
-/* Save button */
-const BtnSaveToday = styled.button`
-  height: ${({ theme }) => theme.size.btnHeight};
+const DashItemRow = styled.div`
+  background-color: #FFFDF5;
+  border: 1.5px solid #ECE7D4;
+  border-radius: 24px;
+  padding: 12px 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: ${({ theme }) => theme.spacing[1]};
-  border-radius: ${({ theme }) => theme.radius.btn};
-  background: ${({ theme }) => theme.colors.primary};
-  box-shadow: 0 4px 0 ${({ theme }) => theme.colors.primaryDeep};
-  color: ${({ theme }) => theme.colors.textWhite};
+  gap: 8px;
   font-family: ${({ theme }) => theme.fonts.hand};
-  font-size: 20px;
-  transition:
-    background-color ${({ theme }) => theme.transition.default},
-    transform ${({ theme }) => theme.transition.fast},
-    box-shadow ${({ theme }) => theme.transition.fast},
-    filter ${({ theme }) => theme.transition.default};
+  font-size: 16px;
+  font-weight: 700;
+  color: #5C524B;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
 
-  &:hover:not(:disabled) {
-    background-color: #95BC8B;
+  strong {
+    color: #21160F;
+    font-family: ${({ theme }) => theme.fonts.body};
+    font-size: 18px;
+    font-weight: 800;
+    padding: 0 2px;
   }
 
-  &:active:not(:disabled) {
-    transform: translateY(4px);
-    box-shadow: 0 0 0 ${({ theme }) => theme.colors.primaryDeep};
-  }
-
-  &:disabled {
-    cursor: default;
-    opacity: 0.8;
-    transform: none;
-    box-shadow: none;
+  .caption {
+    font-size: 13px;
+    color: #8C8A79;
+    padding-left: 4px;
   }
 `;
 
-const BtnIcon = styled.span`
-  width: 28px;
-  height: 28px;
-  svg {
+/* 하단 큰 액션 버튼 2개 */
+const ActionBtnModify = styled.button`
+  background-color: #FFF0FA;
+  border: 1px solid #EFDDEB;
+  box-shadow: 0 4px 0 #A64B5C;
+  color: #5B0D26;
+  height: 52px;
+  border-radius: 26px;
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: 15px;
+  font-weight: 700;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 16px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 #A64B5C;
+  }
+
+  .icon {
+    font-size: 16px;
+    margin-right: 6px;
+  }
+
+  .arrow {
+    position: absolute;
+    right: 24px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+`;
+
+const ActionBtnSave = styled.button`
+  background-color: #7DA678; /* 연두색 저금 버튼 */
+  border: 1px solid #749A6F;
+  box-shadow: 0 4px 0 #577753;
+  color: #FFFFFF;
+  height: 52px;
+  border-radius: 26px;
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: 15px;
+  font-weight: 700;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 #577753;
+  }
+
+  .icon {
+    font-size: 18px;
+  }
+`;
+
+/* 팝업 Overlay */
+const PopupOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const PopupCard = styled.div`
+  background-color: #FFFDF5;
+  border-radius: 36px;
+  border: 1.5px solid #ECE7D4;
+  width: 90%;
+  max-width: 360px;
+  padding: 24px;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
+
+  /* 스크롤바 숨기기 */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const PopupCloseBtn = styled.button`
+  position: absolute;
+  right: 24px;
+  top: 24px;
+  background: none;
+  border: 0;
+  font-size: 20px;
+  color: #8C8A79;
+  cursor: pointer;
+  font-weight: bold;
+`;
+
+const PopupTitle = styled.h2`
+  text-align: center;
+  margin: 0 0 16px 0;
+  color: #2B4C20;
+  font-family: 'Jua', sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+`;
+
+const PopupCharacter = styled.div`
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
     width: 100%;
     height: 100%;
+    object-fit: contain;
   }
-  path {
-    stroke: currentColor;
-    stroke-width: 1.5;
-    stroke-linejoin: round;
+`;
+
+const PopupForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+const PopupLabel = styled.h3`
+  font-family: ${({ theme }) => theme.fonts.body};
+  color: #2B4C20;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 6px;
+`;
+
+/* 챌린지 이름 수정 인풋 */
+const NameInputWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+`;
+
+const NameInput = styled.input`
+  background: #FFFDF5;
+  border: 1px solid #ECE7D4;
+  border-radius: 20px;
+  height: 40px;
+  padding: 0 36px 0 16px;
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: 14px;
+  font-weight: bold;
+  color: #21160F;
+  width: 100%;
+  text-align: center;
+
+  &:focus {
+    outline: none;
+    border-color: #C2E2C0;
   }
-  circle {
-    fill: currentColor;
+`;
+
+const PenIconDeco = styled.span`
+  position: absolute;
+  right: 14px;
+  font-size: 14px;
+  color: #8C8A79;
+  pointer-events: none;
+`;
+
+/* 목표 금액 입력란 */
+const GoalInputWrapper = styled.div`
+  background-color: #FFFCEE;
+  border-radius: 24px;
+  height: 64px;
+  border: 1px solid #FFF5D0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 16px;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.01);
+`;
+
+const GoalInput = styled.input`
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: 24px;
+  font-weight: 800;
+  color: #21160F;
+  width: 180px;
+  text-align: right;
+`;
+
+const GoalUnit = styled.span`
+  font-family: 'Jua', sans-serif;
+  font-size: 20px;
+  color: #21160F;
+  font-weight: bold;
+`;
+
+/* 날짜 기간 선택 */
+const PeriodRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+const DateBox = styled.div`
+  background: #FFFDF5;
+  border: 1px solid #ECE7D4;
+  border-radius: 20px;
+  height: 44px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+`;
+
+const DateLabel = styled.span`
+  font-size: 10px;
+  color: #8C8A79;
+  font-weight: bold;
+`;
+
+const StyledDateInput = styled.input`
+  border: 0;
+  background: transparent;
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: 12px;
+  font-weight: bold;
+  color: #21160F;
+  text-align: center;
+  width: 100%;
+  height: 24px;
+  outline: none;
+  cursor: pointer;
+`;
+
+const ArrowIcon = styled.span`
+  color: #8C8A79;
+  font-weight: bold;
+`;
+
+const DurationBadge = styled.div`
+  background-color: #EAF5EA; /* 연녹색 도전 일수 배지 */
+  border-radius: 12px;
+  color: #27823A;
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: 12px;
+  font-weight: 800;
+  padding: 4px 14px;
+  width: fit-content;
+  margin: 8px auto 0;
+  text-align: center;
+`;
+
+/* 나에게 주는 보상 */
+const RewardInput = styled.input`
+  background: #FFFDF5;
+  border: 1px solid #ECE7D4;
+  border-radius: 20px;
+  height: 44px;
+  padding: 0 16px;
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: 14px;
+  color: #21160F;
+  width: 100%;
+
+  &::placeholder {
+    color: #C4C0B4;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #C2E2C0;
+  }
+`;
+
+/* 팝업 안내 박스 */
+const PopupTipCard = styled.div`
+  background-color: #FFF9E3;
+  border-radius: 20px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 8px;
+`;
+
+const TipInfoIcon = styled.span`
+  color: #FFC000;
+  font-size: 16px;
+  flex-shrink: 0;
+`;
+
+const TipInfoText = styled.p`
+  color: #7D5B18;
+  font-family: ${({ theme }) => theme.fonts.hand};
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 500;
+  margin: 0;
+`;
+
+/* 공유 버튼 및 수정 버튼 */
+const PopupBtnShare = styled.button`
+  background-color: #FCE897; /* 노란색 공유 버튼 */
+  border: 1px solid #E2D086;
+  color: #5C4C18;
+  height: 48px;
+  border-radius: 24px;
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: 15px;
+  font-weight: 700;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 16px;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #EDDA8A;
+  }
+`;
+
+const PopupBtnSave = styled.button`
+  background-color: #7DA678; /* 수정 완료하기 버튼 */
+  color: #FFFFFF;
+  height: 48px;
+  border-radius: 24px;
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: 16px;
+  font-weight: 700;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #749A6F;
   }
 `;
 
 export const ChallengePage: React.FC = () => {
   const { setHeaderConfig } = useHeader();
-  const [saveLabel, setSaveLabel] = useState('오늘의 저금');
-  const [isSaveDisabled, setIsSaveDisabled] = useState(false);
 
-  const [missions, setMissions] = useState<Mission[]>([
-    { id: 1, label: '커피 안 사먹기', reward: 3000, isDone: true },
-    { id: 2, label: '배달 안 시키기', reward: 10000, isDone: false },
-    { id: 3, label: '가계부 작성하기', reward: 1000, isDone: false },
-    { id: 4, label: '택시 타지 않기', reward: 8000, isDone: false },
-  ]);
+  // 팝업 열림/닫힘 상태
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+  // 챌린지 주요 데이터 상태
+  const [challengeName, setChallengeName] = useState('비상금 챌린지');
+  const [goalAmount, setGoalAmount] = useState(1000000);
+  const [currentSavings, setCurrentSavings] = useState(450000);
+  
+  // 날짜 설정 (D-15 및 45일간의 도전 연출)
+  // 오늘 날짜 2026-08-07 기준
+  const [startDate, setStartDate] = useState('2026-07-09');
+  const [endDate, setEndDate] = useState('2026-08-22');
+  const [rewardText, setRewardText] = useState('제주도 여행');
+
+  // 팝업 내부용 임시 입력 상태
+  const [editName, setEditName] = useState('');
+  const [editGoal, setEditGoal] = useState('');
+  const [editStart, setEditStart] = useState('');
+  const [editEnd, setEditEnd] = useState('');
+  const [editReward, setEditReward] = useState('');
+
+  // 컴포넌트 마운트 시 로드
   useEffect(() => {
     setHeaderConfig({
       showBackButton: false,
@@ -467,179 +562,308 @@ export const ChallengePage: React.FC = () => {
         window.alert('새로운 알림이 없습니다.');
       },
     });
+
+    const savedName = localStorage.getItem('challenge_name');
+    if (savedName) setChallengeName(savedName);
+
+    const savedGoal = localStorage.getItem('challenge_goal');
+    if (savedGoal) setGoalAmount(Number(savedGoal));
+
+    const savedSavings = localStorage.getItem('challenge_savings');
+    if (savedSavings) setCurrentSavings(Number(savedSavings));
+
+    const savedStart = localStorage.getItem('challenge_start');
+    if (savedStart) setStartDate(savedStart);
+
+    const savedEnd = localStorage.getItem('challenge_end');
+    if (savedEnd) setEndDate(savedEnd);
+
+    const savedReward = localStorage.getItem('challenge_reward');
+    if (savedReward) setRewardText(savedReward);
   }, [setHeaderConfig]);
 
-  const handleMissionToggle = (id: number) => {
-    setMissions((prev) =>
-      prev.map((mission) =>
-        mission.id === id ? { ...mission, isDone: !mission.isDone } : mission
-      )
-    );
+  // 계산 영역
+  const remainingAmount = Math.max(goalAmount - currentSavings, 0);
+  const progressPercent = Math.min(Math.round((currentSavings / goalAmount) * 100), 100);
+
+  // 도전 일수 계산
+  const getChallengeDuration = (start: string, end: string) => {
+    try {
+      const sDate = new Date(start);
+      const eDate = new Date(end);
+      const diffTime = Math.abs(eDate.getTime() - sDate.getTime());
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+      return isNaN(diffDays) ? 0 : diffDays;
+    } catch {
+      return 0;
+    }
   };
 
-  const handleSaveClick = () => {
-    if (isSaveDisabled) return;
 
-    const completedCount = missions.filter((m) => m.isDone).length;
-    setSaveLabel(`오늘의 저금 완료 · 미션 ${completedCount}/${missions.length}`);
-    setIsSaveDisabled(true);
 
-    setTimeout(() => {
-      setSaveLabel('오늘의 저금');
-      setIsSaveDisabled(false);
-    }, 1800);
+  // D-Day 계산
+  const getDDay = (targetDate: string) => {
+    try {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const end = new Date(targetDate);
+      const diffTime = end.getTime() - today.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      if (isNaN(diffDays)) return 'D-';
+      return diffDays > 0 ? `D-${diffDays}` : diffDays === 0 ? 'D-Day' : `D+${Math.abs(diffDays)}`;
+    } catch {
+      return 'D-';
+    }
+  };
+
+  const dDayText = getDDay(endDate);
+
+  // 예상 달성일 포맷팅
+  const getFormattedDate = (targetDate: string) => {
+    try {
+      const dateObj = new Date(targetDate);
+      const m = dateObj.getMonth() + 1;
+      const d = dateObj.getDate();
+      return isNaN(m) ? '' : `${m}월 ${d}일`;
+    } catch {
+      return '';
+    }
+  };
+
+  const targetDateFormatted = getFormattedDate(endDate);
+
+  // 팝업 열기 핸들러
+  const handleOpenPopup = () => {
+    setEditName(challengeName);
+    setEditGoal(goalAmount.toLocaleString('ko-KR'));
+    setEditStart(startDate);
+    setEditEnd(endDate);
+    setEditReward(rewardText);
+    setIsPopupOpen(true);
+  };
+
+  // 팝업 금액 필터
+  const handleAmountInput = (val: string) => {
+    const rawValue = val.replace(/[^\d]/g, '');
+    setEditGoal(rawValue ? Number(rawValue).toLocaleString('ko-KR') : '');
+  };
+
+  // 팝업 저장 핸들러
+  const handleSave = () => {
+    const cleanGoal = Number(editGoal.replace(/[^\d]/g, ''));
+    if (!cleanGoal || cleanGoal === 0) {
+      window.alert('올바른 목표 금액을 입력해주세요.');
+      return;
+    }
+
+    if (!editStart || !editEnd) {
+      window.alert('시작일과 종료일을 입력해주세요.');
+      return;
+    }
+
+    const sDate = new Date(editStart);
+    const eDate = new Date(editEnd);
+    if (sDate > eDate) {
+      window.alert('종료일은 시작일보다 빠를 수 없습니다.');
+      return;
+    }
+
+    // 상태 저장
+    setChallengeName(editName);
+    setGoalAmount(cleanGoal);
+    setStartDate(editStart);
+    setEndDate(editEnd);
+    setRewardText(editReward);
+
+    // 로컬스토리지 저장
+    localStorage.setItem('challenge_name', editName);
+    localStorage.setItem('challenge_goal', String(cleanGoal));
+    localStorage.setItem('challenge_start', editStart);
+    localStorage.setItem('challenge_end', editEnd);
+    localStorage.setItem('challenge_reward', editReward);
+
+    setIsPopupOpen(false);
+  };
+
+  // 오늘의 저금 핸들러 (실제 저금 연동)
+  const handleDepositToday = () => {
+    const input = window.prompt('오늘 얼마를 저금할까요?', '10,000');
+    if (input === null) return;
+
+    const parsed = Number(input.replace(/[^\d]/g, ''));
+    if (isNaN(parsed) || parsed <= 0) {
+      window.alert('올바른 저금 금액을 입력해주세요.');
+      return;
+    }
+
+    const newSavings = currentSavings + parsed;
+    setCurrentSavings(newSavings);
+    localStorage.setItem('challenge_savings', String(newSavings));
+    window.alert(`오늘의 저금 완료! ₩${parsed.toLocaleString()}원이 모금되었습니다.`);
   };
 
   return (
-    <ChallengeMain id="challenge-screen">
-      <ChallengeCard aria-labelledby="challenge-title">
-        <ChallengeBadge>Ongoing Challenge</ChallengeBadge>
-        <ChallengeTitle id="challenge-title">비상금 챌린지</ChallengeTitle>
-        <ChallengeGoal>Goal: 1,000,000 KRW</ChallengeGoal>
-        <ChallengeAmountText>
-          450,000<span className="unit">원</span>
-        </ChallengeAmountText>
-        <ProgressTrack
-          role="progressbar"
-          aria-label="비상금 챌린지 진행률"
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-valuenow={45}
-        >
-          <ProgressFill $percent={45} />
-        </ProgressTrack>
-        <ProgressMeta>
-          <span>45% 완료</span>
-          <span>D-15</span>
-        </ProgressMeta>
-      </ChallengeCard>
+    <ChallengeContainer id="challenge-screen">
+      <ChallengeMain>
+        <OngoingBadge>Ongoing Challenge</OngoingBadge>
+        <TitleWrapper>
+          <FireIcon>🔥</FireIcon>
+          <ChallengeTitle>{challengeName}</ChallengeTitle>
+          <FireIcon>🔥</FireIcon>
+        </TitleWrapper>
+        <ChallengeGoal>목표 : {goalAmount.toLocaleString('ko-KR')} 원</ChallengeGoal>
 
-      <section aria-labelledby="dashboard-title">
-        <SectionTitle id="dashboard-title">챌린지 대시보드</SectionTitle>
-        <DashboardGrid>
-          <DashCard>
-            <DashTitle>연속 성공</DashTitle>
-            <DashBody>
-              <DashIcon $type="fire">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M12 2C12 6 8 8 8 12.5C8 15.5 10 18 12 18C14.5 18 16 15.8 16 13C17 14 17.5 15.3 17.5 16.5C17.5 19.8 15 22 12 22C8.5 22 5.5 19.3 5.5 15.5C5.5 10.5 9.5 8.5 12 2Z" />
-                </svg>
-              </DashIcon>
-              <DashValue>
-                15<span className="dash-unit">일</span>
-              </DashValue>
-            </DashBody>
-            <DashCaption>최고 23일</DashCaption>
-          </DashCard>
+        {/* 메인 진행률 카드 */}
+        <MainProgressCard>
+          <CardHeader>
+            <CardProgressLabel>{progressPercent}% 완료</CardProgressLabel>
+            <CardDDay>{dDayText}</CardDDay>
+          </CardHeader>
+          <SavingsAmountText>
+            {currentSavings.toLocaleString('ko-KR')}
+            <span>원</span>
+          </SavingsAmountText>
+          <ProgressTrack>
+            <ProgressFill $percent={progressPercent} />
+          </ProgressTrack>
+        </MainProgressCard>
 
-          <DashCard>
-            <DashTitle>오늘 절약</DashTitle>
-            <DashBody>
-              <DashIcon $type="wallet">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <rect x="3" y="6" width="18" height="13" rx="3" />
-                  <rect x="3" y="6" width="18" height="4" rx="2" />
-                  <circle cx="16.5" cy="13" r="1.6" />
-                </svg>
-              </DashIcon>
-              <DashValue>
-                8,200<span className="dash-unit">원</span>
-              </DashValue>
-            </DashBody>
-            <DashCaption>어제보다 +1,500원</DashCaption>
-          </DashCard>
+        {/* 상세 대시보드 리스트 */}
+        <DashboardList>
+          {/* 남은 금액 */}
+          <DashItemRow>
+            목표까지 <strong>{remainingAmount.toLocaleString('ko-KR')}원</strong> 남았어요!
+          </DashItemRow>
 
-          <DashCard>
-            <DashTitle>목표까지</DashTitle>
-            <DashBody>
-              <DashIcon $type="target">
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <circle cx="12" cy="12" r="9" />
-                  <circle cx="12" cy="12" r="5" />
-                  <circle className="target-dot" cx="12" cy="12" r="1.6" />
-                </svg>
-              </DashIcon>
-              <DashValue $customSize="18px">
-                550,000<span className="dash-unit">원</span>
-              </DashValue>
-            </DashBody>
-            <DashCaption>남았어요!</DashCaption>
-          </DashCard>
+          {/* 연속 성공 */}
+          <DashItemRow>
+            연속 성공 <strong>15일</strong>
+            <span className="caption">최고 23일</span>
+          </DashItemRow>
 
-          <DashCard>
-            <DashTitle>예상 달성일</DashTitle>
-            <DashBody>
-              <DashIcon $type="calendar">
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <rect x="4" y="5" width="16" height="16" rx="2" />
-                  <line x1="4" y1="10" x2="20" y2="10" />
-                  <line x1="8" y1="3" x2="8" y2="7" />
-                  <line x1="16" y1="3" x2="16" y2="7" />
-                </svg>
-              </DashIcon>
-              <DashValue $customSize="20px">
-                9월 18<span className="dash-unit">일</span>
-              </DashValue>
-            </DashBody>
-            <DashCaption>D-15</DashCaption>
-          </DashCard>
-        </DashboardGrid>
-      </section>
+          {/* 예상 달성일 */}
+          <DashItemRow>
+            예상 달성일 <strong>{targetDateFormatted}</strong>
+            <span className="caption">{dDayText}</span>
+          </DashItemRow>
+        </DashboardList>
 
-      <MissionCardSection aria-labelledby="mission-title">
-        <MissionHeader>
-          <MissionHeaderLeft>
-            <MissionHeaderIcon>
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <rect x="6" y="4" width="12" height="17" rx="2" />
-                <rect x="9" y="2.5" width="6" height="3" rx="1.2" />
-                <line x1="9" y1="10" x2="15" y2="10" />
-                <line x1="9" y1="14" x2="15" y2="14" />
-              </svg>
-            </MissionHeaderIcon>
-            <MissionTitle id="mission-title">오늘의 미션</MissionTitle>
-          </MissionHeaderLeft>
-          <MissionMascot src={mongLying} alt="누워 있는 몽이" />
-        </MissionHeader>
-        <MissionList>
-          {missions.map((mission) => (
-            <MissionItem key={mission.id} $isDone={mission.isDone}>
-              <MissionCheckBtn
-                type="button"
-                $isDone={mission.isDone}
-                onClick={() => handleMissionToggle(mission.id)}
-                aria-pressed={mission.isDone}
-                aria-label={`${mission.label} 완료 여부`}
-              >
-                <svg viewBox="0 0 16 16" aria-hidden="true">
-                  <path d="M3 8.5L6.2 11.5L13 4.5" />
-                </svg>
-              </MissionCheckBtn>
-              <MissionLabel>{mission.label}</MissionLabel>
-              <MissionRewardText>+{mission.reward.toLocaleString('ko-KR')}원</MissionRewardText>
-            </MissionItem>
-          ))}
-        </MissionList>
-        <MissionBonus>
-          모든 미션 완료 시 추가 보상 <strong>+2,000원!</strong>
-        </MissionBonus>
-      </MissionCardSection>
+        {/* 하단 액션 버튼 2개 */}
+        <ActionBtnModify type="button" onClick={handleOpenPopup}>
+          <span className="icon">✏️</span>
+          <span>챌린지 수정</span>
+          <span className="arrow">›</span>
+        </ActionBtnModify>
 
-      <BtnSaveToday
-        type="button"
-        id="btn-save-today"
-        disabled={isSaveDisabled}
-        onClick={handleSaveClick}
-      >
-        <BtnIcon className="btn-icon">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M4 13C4 9.5 7 7 11 7H16C18 7 19.5 8.6 19.5 10.4V10.5C20.4 10.8 21 11.6 21 12.6C21 13.6 20.4 14.4 19.5 14.7V16.5C19.5 17.3 18.9 18 18 18H17V19.5C17 20.3 16.3 21 15.5 21H14.5C13.7 21 13 20.3 13 19.5V18H9V19.5C9 20.3 8.3 21 7.5 21H6.5C5.7 21 5 20.3 5 19.5V16.8C4.4 16 4 15 4 13Z" />
-            <circle cx="16" cy="12" r="1" />
-          </svg>
-        </BtnIcon>
-        <span>{saveLabel}</span>
-      </BtnSaveToday>
-    </ChallengeMain>
+        <ActionBtnSave type="button" onClick={handleDepositToday}>
+          <span className="icon">🐷</span>
+          <span>오늘의 저금</span>
+        </ActionBtnSave>
+      </ChallengeMain>
+
+      <BottomNavigation />
+
+      {/* 챌린지 수정 팝업 */}
+      {isPopupOpen && (
+        <PopupOverlay>
+          <PopupCard id="challenge-edit-popup">
+            <PopupCloseBtn onClick={() => setIsPopupOpen(false)}>×</PopupCloseBtn>
+            <PopupTitle>비상금 챌린지 수정</PopupTitle>
+            <PopupCharacter>
+              <img src={mongCurious} alt="생각하는 몽이" />
+            </PopupCharacter>
+
+            <PopupForm>
+              {/* 챌린지 이름 수정 */}
+              <div>
+                <PopupLabel>챌린지 이름 수정</PopupLabel>
+                <NameInputWrapper>
+                  <NameInput
+                    type="text"
+                    value={editName}
+                    onChange={(e) => setEditName(e.target.value)}
+                    placeholder="챌린지 이름 입력"
+                  />
+                  <PenIconDeco>✏️</PenIconDeco>
+                </NameInputWrapper>
+              </div>
+
+              {/* 목표 금액 */}
+              <div>
+                <PopupLabel>목표 금액</PopupLabel>
+                <GoalInputWrapper>
+                  <GoalInput
+                    type="text"
+                    inputMode="numeric"
+                    value={editGoal}
+                    onChange={(e) => handleAmountInput(e.target.value)}
+                    placeholder="0"
+                  />
+                  <GoalUnit>원</GoalUnit>
+                </GoalInputWrapper>
+              </div>
+
+              {/* 챌린지 기간 */}
+              <div>
+                <PopupLabel>챌린지 기간</PopupLabel>
+                <PeriodRow>
+                  <DateBox>
+                    <DateLabel>시작일</DateLabel>
+                    <StyledDateInput
+                      type="date"
+                      value={editStart}
+                      onChange={(e) => setEditStart(e.target.value)}
+                    />
+                  </DateBox>
+                  <ArrowIcon>→</ArrowIcon>
+                  <DateBox>
+                    <DateLabel>종료일</DateLabel>
+                    <StyledDateInput
+                      type="date"
+                      value={editEnd}
+                      onChange={(e) => setEditEnd(e.target.value)}
+                    />
+                  </DateBox>
+                </PeriodRow>
+                <DurationBadge>
+                  총 {getChallengeDuration(editStart, editEnd)}일간의 도전
+                </DurationBadge>
+              </div>
+
+              {/* 나에게 주는 보상 */}
+              <div>
+                <PopupLabel>나에게 주는 보상</PopupLabel>
+                <RewardInput
+                  type="text"
+                  value={editReward}
+                  onChange={(e) => setEditReward(e.target.value)}
+                  placeholder="예: 제주도 여행, 근사한 저녁 식사"
+                />
+              </div>
+
+              {/* 팝업 경고 메시지 팁 */}
+              <PopupTipCard>
+                <TipInfoIcon>ⓘ</TipInfoIcon>
+                <TipInfoText>
+                  목표를 수정해도 지금까지 모은 금액은 사라지지 않아요!
+                </TipInfoText>
+              </PopupTipCard>
+
+              {/* 공유하기 버튼 */}
+              <PopupBtnShare type="button" onClick={() => window.alert('친구 공유 기능은 준비 중입니다.')}>
+                <span>🔗 친구에게 챌린지 공유하기</span>
+              </PopupBtnShare>
+
+              {/* 완료 버튼 */}
+              <PopupBtnSave type="button" onClick={handleSave}>
+                수정 완료하기
+              </PopupBtnSave>
+            </PopupForm>
+          </PopupCard>
+        </PopupOverlay>
+      )}
+    </ChallengeContainer>
   );
 };
+
 export default ChallengePage;

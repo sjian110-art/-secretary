@@ -378,6 +378,68 @@ const UsageFill = styled.div<{ $percent: number }>`
   transition: width ${({ theme }) => theme.transition.slow};
 `;
 
+const AttitudeArea = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing[1]};
+  margin-top: 16px;
+  margin-bottom: 8px;
+`;
+
+const AttitudeLabel = styled.p`
+  font-family: ${({ theme }) => theme.fonts.hand};
+  color: ${({ theme }) => theme.colors.textSub};
+  font-size: 17px;
+  font-weight: 500;
+`;
+
+const AttitudeBadge = styled.div<{ $stance: string }>`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 20px;
+  color: #7A3B4D;
+  font-family: ${({ theme }) => theme.fonts.hand};
+  font-size: 18px;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(239, 221, 235, 0.4);
+
+  ${({ $stance }) => {
+    switch ($stance) {
+      case '허리띠 졸라매기':
+        return 'background-color: #FFEAEF; border: 1px solid #EFDDEB; color: #7A3B4D;';
+      case '바지 꽉 잠궈입기':
+        return 'background-color: #FFF0E4; border: 1px solid #EFDFDD; color: #7A4B3E;';
+      case '평소처럼 유지':
+        return 'background-color: #EBF4FF; border: 1px solid #DDE9EF; color: #2A5A9F;';
+      case '트레이닝 팬츠 입기':
+        return 'background-color: #EAF5EA; border: 1px solid #DDEFD5; color: #27823A;';
+      case '여유롭게 즐기기':
+        return 'background-color: #F3E8FF; border: 1px solid #ECDDFE; color: #6A2ABF;';
+      default:
+        return 'background-color: #FFF0FA; border: 1px solid #EFDDEB; color: #7A3B4D;';
+    }
+  }}
+`;
+
+const PiggyIcon = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: inherit;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+`;
+
 /* Encourage Card */
 const EncourageCard = styled.section`
   min-height: 150px;
@@ -520,13 +582,7 @@ const PlusIcon = styled.span`
   }
 `;
 
-const ChartIcon = styled.span`
-  color: #956000;
-  font-family: ${({ theme }) => theme.fonts.hand};
-  font-size: 36px;
-  transform: rotate(-12deg);
-  line-height: 1;
-`;
+
 
 /* Edit monthly budget button */
 const BtnEditBudget = styled.button`
@@ -585,6 +641,7 @@ export const ExpensePlanPage: React.FC = () => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [startDateInput, setStartDateInput] = useState('2026-08-01');
   const [endDateInput, setEndDateInput] = useState('2026-08-31');
+  const [attitude, setAttitude] = useState('허리띠 졸라매기');
 
   useEffect(() => {
     setHeaderConfig({
@@ -594,6 +651,16 @@ export const ExpensePlanPage: React.FC = () => {
         window.alert('새로운 알림이 없습니다.');
       },
     });
+
+    // Load budget & attitude from localStorage if present
+    const savedBudget = localStorage.getItem('budget');
+    if (savedBudget) {
+      setBudget(Number(savedBudget));
+    }
+    const savedAttitude = localStorage.getItem('attitude');
+    if (savedAttitude) {
+      setAttitude(savedAttitude);
+    }
 
     // Compute spentAmount dynamically from stored expenses
     const stored = localStorage.getItem('expenses');
@@ -609,6 +676,43 @@ export const ExpensePlanPage: React.FC = () => {
       setSpentAmount(780000);
     }
   }, [setHeaderConfig]);
+
+  const getAttitudeIcon = (stance: string) => {
+    switch (stance) {
+      case '허리띠 졸라매기':
+        return (
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20 10.5c0-.83-.67-1.5-1.5-1.5H18c0-1.8-1.04-3.36-2.55-4.14l.85-1.7a.5.5 0 00-.89-.45l-1 2A7.94 7.94 0 0012 5c-.75 0-1.47.1-2.16.3l-1-2a.5.5 0 00-.89.45l.85 1.7C7.29 6.22 6.25 7.78 6.25 9.5H6C5.17 9.5 4.5 10.17 4.5 11c0 .76.57 1.39 1.31 1.48C5.23 13.56 5 14.76 5 16v1c0 .83.67 1.5 1.5 1.5h1.25c.57 1.22 1.8 2.08 3.25 2.08s2.68-.86 3.25-2.08h1.25c.83 0 1.5-.67 1.5-1.5v-1c0-1.24-.23-2.44-.81-3.52.74-.09 1.31-.72 1.31-1.48zM12 7c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1z" />
+          </svg>
+        );
+      case '바지 꽉 잠궈입기':
+        return (
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" />
+          </svg>
+        );
+      case '평소처럼 유지':
+        return (
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
+          </svg>
+        );
+      case '트레이닝 팬츠 입기':
+        return (
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6 2v6h12V2H6zm0 8h12c1.1 0 2 .9 2 2v8c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2v-8c0-1.1.9-2 2-2z" />
+          </svg>
+        );
+      case '여유롭게 즐기기':
+        return (
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 9h-4V7h-2v4H7v2h4v4h2v-4h4v-2z" />
+          </svg>
+        );
+      default:
+        return null;
+    }
+  };
 
   // Click outside close panel
   useEffect(() => {
@@ -639,18 +743,7 @@ export const ExpensePlanPage: React.FC = () => {
     setIsPanelOpen(false);
   };
 
-  const handleEditBudget = () => {
-    const input = window.prompt('이번 달 예산을 입력해주세요.', String(budget));
-    if (input === null) return;
 
-    const parsed = Number(input.replace(/[^\d]/g, ''));
-    if (!parsed) {
-      window.alert('올바른 예산 금액을 입력해주세요.');
-      return;
-    }
-
-    setBudget(parsed);
-  };
 
   const getFormattedPeriod = () => {
     const start = new Date(`${startDate}T00:00:00`);
@@ -734,6 +827,16 @@ export const ExpensePlanPage: React.FC = () => {
         </BudgetCircle>
       </BudgetCircleArea>
 
+      <AttitudeArea>
+        <AttitudeLabel>이번 달 나의 태도</AttitudeLabel>
+        <AttitudeBadge $stance={attitude}>
+          <PiggyIcon>
+            {getAttitudeIcon(attitude)}
+          </PiggyIcon>
+          <span>{attitude}</span>
+        </AttitudeBadge>
+      </AttitudeArea>
+
       <RemainingCard aria-label="남은 예산">
         <RemainingLeft>
           <RemainingLabel>남은 예산</RemainingLabel>
@@ -789,17 +892,20 @@ export const ExpensePlanPage: React.FC = () => {
 
         <ActionBtn
           $primary={false}
-          onClick={() => navigate('/expense/history')}
+          onClick={() => navigate('/daily-log')}
           type="button"
         >
           <ActionIcon className="action-icon">
-            <ChartIcon className="chart-icon">⌁</ChartIcon>
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#956000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M3 3v18h18" />
+              <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3" />
+            </svg>
           </ActionIcon>
-          <span>지출 내역</span>
+          <span>데일리 로그</span>
         </ActionBtn>
       </ActionButtons>
 
-      <BtnEditBudget onClick={handleEditBudget} type="button">
+      <BtnEditBudget onClick={() => navigate('/expense/plan/edit')} type="button">
         <GearIcon className="gear-icon">⚙</GearIcon>
         <span>월 예산 수정</span>
         <EditArrow className="edit-arrow">›</EditArrow>

@@ -316,7 +316,7 @@ export const LoginPage: React.FC = () => {
           <LoginLinks aria-label="계정 관련 링크">
             <LoginLink to="/signup">회원가입</LoginLink>
             <LinkDot aria-hidden="true">•</LinkDot>
-            <LoginLink to="#">비밀번호 찾기</LoginLink>
+            <LoginLink to="/forgot-password">비밀번호 찾기</LoginLink>
           </LoginLinks>
         </LoginCard>
 

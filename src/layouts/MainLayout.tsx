@@ -4,9 +4,11 @@ import { AppContainer, MainContent } from './LayoutElements';
 import { Header } from '../components/Header';
 import { BottomNavigation } from '../components/BottomNavigation';
 import { useHeader } from '../contexts/HeaderContext';
+import { useScrollToTop } from '../hooks/useScrollToTop';
 
 export const MainLayout: React.FC = () => {
   const { headerConfig } = useHeader();
+  useScrollToTop();
 
   return (
     <AppContainer>

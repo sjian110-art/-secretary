@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useCallback } from 'react';
 
 export interface HeaderConfig {
   showBackButton?: boolean;
-  title?: string;
+  title?: string | React.ReactNode;
   rightIcon?: React.ReactNode;
   onRightClick?: () => void;
 }

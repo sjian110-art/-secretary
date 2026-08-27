@@ -6,7 +6,7 @@ import logoText from '../assets/images/logo.png';
 
 export interface HeaderProps {
   showBackButton?: boolean;
-  title?: string;
+  title?: string | React.ReactNode;
   rightIcon?: React.ReactNode;
   onRightClick?: () => void;
 }
@@ -67,11 +67,14 @@ const LogoTextImg = styled.img`
   object-fit: contain;
 `;
 
-const TitleText = styled.h2`
+const TitleText = styled.div`
   font-family: ${({ theme }) => theme.fonts.title};
   font-size: 20px;
   color: ${({ theme }) => theme.colors.primaryDark};
   font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 `;
 
 const IconButton = styled.button`
@@ -99,6 +102,7 @@ const IconButton = styled.button`
     stroke: currentColor;
     stroke-width: 1.6;
     stroke-linejoin: round;
+    stroke-linecap: round;
   }
 `;
 
